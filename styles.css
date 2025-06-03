@@ -1,0 +1,27 @@
+:root {
+    --primary: rgb(241, 241, 241);
+    --secondary: rgb(0, 0, 0);
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#background {
+    width: 100%;
+    height: 100%;
+    padding: 4rem 0;
+    box-sizing: border-box;
+    background-color: var(--secondary);
+}
+
+#background img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
