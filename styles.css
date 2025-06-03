@@ -42,7 +42,7 @@ main img:not(#background) {
 
 .slide {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: none;
     pointer-events: none;
 }
 
