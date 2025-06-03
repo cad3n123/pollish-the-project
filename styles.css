@@ -39,3 +39,34 @@ main img:not(#background) {
     padding: 0 2rem;
     box-sizing: border-box;
 }
+
+.slide {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: var(--secondary);
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+#prev {
+    left: 0.5rem;
+}
+
+#next {
+    right: 0.5rem;
+}
