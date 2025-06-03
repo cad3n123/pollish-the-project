@@ -28,7 +28,7 @@ main {
 }
 
 main img:not(#background) {
-    --size: 40%;
+    --size: 30%;
 
     position: absolute;
     width: var(--size);
