@@ -14,7 +14,7 @@ body {
     overflow: hidden;
     padding: 0 var(--horizontal-padding);
     box-sizing: border-box;
-    background-color: rgb(10, 10, 10);
+    background-color: rgb(0, 0, 0);
 }
 
 main {
@@ -115,6 +115,6 @@ main img:not(#background) {
         padding: 0;
     }
     main {
-        background-color: rgb(10, 10, 10);
+        background-color: rgb(0, 0, 0);
     }
 }
