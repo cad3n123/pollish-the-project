@@ -48,4 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
         index = (index - 1 + slides.length) % slides.length;
         showSlide(index);
     });
+
+    // Nav hover behaviour
+    document.querySelectorAll('#vertical-nav img').forEach(img => {
+        const inverted = img.src;
+        const normal = img.dataset.src;
+        const showNormal = () => { img.src = normal; };
+        const showInverted = () => { img.src = inverted; };
+        ['mouseenter', 'mousedown', 'touchstart'].forEach(evt => {
+            img.addEventListener(evt, showNormal);
+        });
+        ['mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
+            img.addEventListener(evt, showInverted);
+        });
+    });
 });

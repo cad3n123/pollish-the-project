@@ -81,3 +81,26 @@ main img:not(#background) {
 #next {
     right: 0.5rem;
 }
+
+/* Vertical navigation */
+#vertical-nav {
+    position: fixed;
+    top: 0;
+    left: 10rem; /* keep inside body padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    z-index: 3;
+}
+
+#vertical-nav img {
+    width: 3rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+#vertical-nav img#logo {
+    width: 4rem;
+}
