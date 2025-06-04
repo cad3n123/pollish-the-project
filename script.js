@@ -76,6 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
         showSlide(index);
     });
 
+    // Nav hover behaviour
+    document.querySelectorAll('#vertical-nav img').forEach(img => {
+        const inverted = img.src;
+        const normal = img.dataset.src;
+        const showNormal = () => { img.src = normal; };
+        const showInverted = () => { img.src = inverted; };
+        ['mouseenter', 'mousedown', 'touchstart'].forEach(evt => {
+            img.addEventListener(evt, showNormal);
+        });
+        ['mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
+            img.addEventListener(evt, showInverted);
+        });
+    });
+  
     // Play pollish sound when the first slide image is clicked
     if (slides[0]) {
         slides[0].addEventListener('click', playPollish);
