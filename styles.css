@@ -119,6 +119,12 @@ main > img {
 
 #vertical-nav img#logo {
     width: 100%;
+    transition: filter 0.3s ease-in-out;
+}
+
+#vertical-nav img#logo:hover {
+    /* Approximate the default CSS blue */
+    filter: invert(32%) sepia(95%) saturate(4096%) hue-rotate(199deg) brightness(100%) contrast(95%);
 }
 
 @media only screen and (max-width: 800px) {
