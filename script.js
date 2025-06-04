@@ -6,6 +6,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let index = slides.findIndex(slide => slide.classList.contains('active'));
     let timeout;
 
+    // Setup audio context and preload the click sound
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let clickBuffer;
+
+    fetch('./audios/slide_click.m4a')
+        .then(resp => resp.arrayBuffer())
+        .then(data => audioCtx.decodeAudioData(data))
+        .then(buffer => {
+            clickBuffer = buffer;
+        });
+
+    function playClick() {
+        if (!clickBuffer) return;
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        const source = audioCtx.createBufferSource();
+        source.buffer = clickBuffer;
+        source.connect(audioCtx.destination);
+        source.start();
+    }
+
     function showSlide(i) {
         slides.forEach(slide => slide.classList.remove('active'));
         clearTimeout(timeout);
@@ -13,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeout = setTimeout(() => {
             slides[i].classList.add('active');
             background.classList.remove('translucent');
+            playClick();
         }, 150);
     }
 
