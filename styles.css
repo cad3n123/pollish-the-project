@@ -86,21 +86,24 @@ main img:not(#background) {
 #vertical-nav {
     position: fixed;
     top: 0;
-    left: 10rem; /* keep inside body padding */
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 1rem;
     z-index: 3;
+    max-width: 10rem;
+    box-sizing: border-box;
+    padding: 1.5rem;
 }
 
 #vertical-nav img {
-    width: 3rem;
+    width: 80%;
     margin-bottom: 1rem;
     cursor: pointer;
     user-select: none;
 }
 
 #vertical-nav img#logo {
-    width: 4rem;
+    width: 100%;
 }
