@@ -10,22 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const clickUrl = './audios/slide_click.m4a';
     let playClick;
 
-    if (window.AudioContext || window.webkitAudioContext) {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const bufferPromise = fetch(clickUrl)
+    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtxClass) {
+        const audioCtx = new AudioCtxClass();
+        let clickBuffer;
+
+        fetch(clickUrl)
             .then(resp => resp.arrayBuffer())
-            .then(data => audioCtx.decodeAudioData(data));
+            .then(data => audioCtx.decodeAudioData(data))
+            .then(buffer => {
+                clickBuffer = buffer;
+            })
+            .catch(console.error);
 
         playClick = () => {
-            bufferPromise.then(buffer => {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const source = audioCtx.createBufferSource();
-                source.buffer = buffer;
-                source.connect(audioCtx.destination);
-                source.start();
-            });
+            if (!clickBuffer) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const source = audioCtx.createBufferSource();
+            source.buffer = clickBuffer;
+            source.connect(audioCtx.destination);
+            source.start(0);
         };
     } else {
         const clickAudio = new Audio(clickUrl);
