@@ -6,39 +6,47 @@
 }
 
 body {
-    --horizontal-padding: 10rem;
+    --horizontal-padding: 12%;
 
     margin: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
-    padding: 0 var(--horizontal-padding);
     box-sizing: border-box;
     background-color: rgb(0, 0, 0);
 }
 
 main {
     position: relative;
-    max-width: 100%;
-    width: max-content;
+    width: calc(100% - 2 * var(--horizontal-padding));
     height: 100%;
-    margin: auto;
     padding: 3rem 0;
     box-sizing: border-box;
     background-color: rgb(0, 0, 0);
+    margin: auto;
+    overflow: hidden;
 }
 
-#background {
-    width: 100%;
+main #background {
+    position: relative;
+    width: max-content;
     height: 100%;
-    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    justify-self: center;
 }
 
-#background.translucent {
+main #background.translucent {
     opacity: 0.5;
 }
 
-main img:not(#background) {
+main #background img {
+    max-width: 100vw;
+    object-fit: contain;
+}
+
+main > img {
     --size: 30%;
 
     position: absolute;
@@ -63,6 +71,9 @@ main img:not(#background) {
 }
 
 .arrow {
+    --horizontal-padding: 1rem;
+    --distance: 24%;
+
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -72,16 +83,16 @@ main img:not(#background) {
     color: var(--primary);
     opacity: 0.7;
     font-size: 3rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem var(--horizontal-padding);
     cursor: pointer;
 }
 
 #prev {
-    left: 20%;
+    left: var(--distance);
 }
 
 #next {
-    right: 20%;
+    right: calc(var(--distance) - var(--horizontal-padding));
 }
 
 /* Vertical navigation */
@@ -92,11 +103,11 @@ main img:not(#background) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
     z-index: 3;
     max-width: var(--horizontal-padding);
     box-sizing: border-box;
-    padding: 1.5rem;
+    padding: calc(0.1 * var(--horizontal-padding));
+    padding-top: calc(0.15 * var(--horizontal-padding));
 }
 
 #vertical-nav img {
@@ -111,10 +122,7 @@ main img:not(#background) {
 }
 
 @media only screen and (max-width: 800px) {
-    body {
-        padding: 0;
-    }
     main {
-        background-color: rgb(0, 0, 0);
+        width: 100%;
     }
 }
