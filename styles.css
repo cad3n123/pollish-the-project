@@ -72,7 +72,7 @@ main > img {
 
 .arrow {
     --horizontal-padding: 1rem;
-    --distance: 24%;
+    --distance: 23%;
 
     position: absolute;
     top: 50%;
@@ -92,7 +92,7 @@ main > img {
 }
 
 #next {
-    right: calc(var(--distance) - var(--horizontal-padding));
+    right: var(--distance);
 }
 
 /* Vertical navigation */
