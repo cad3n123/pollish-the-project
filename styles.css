@@ -77,11 +77,11 @@ main img:not(#background) {
 }
 
 #prev {
-    left: 0.5rem;
+    left: 20%;
 }
 
 #next {
-    right: 0.5rem;
+    right: 20%;
 }
 
 /* Vertical navigation */
