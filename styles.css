@@ -173,16 +173,16 @@ body {
     height: 100%;
 }
 
-img.blue-hover:hover {
+img.blue-hover, img.red-hover {
     transition: filter 0.3s ease-in-out;
-    
+}
+
+img.blue-hover:hover {
     /* Darker, more saturated blue on hover */
     filter: invert(50%) sepia(95%) saturate(6000%) hue-rotate(199deg) brightness(95%) contrast(500%);
 }
 
 img.red-hover:hover {
-    transition: filter 0.3s ease-in-out;
-
     /* Adjusted hue and saturation for a deeper red */
     filter: invert(15%) sepia(96%) saturate(8500%) hue-rotate(-15deg) brightness(95%) contrast(103%);
 }
