@@ -162,8 +162,8 @@ body {
 }
 
 #vertical-nav .nav-item:not(#logo-wrapper) {
-    margin-top: 0.25rem;
-    height: 14px;
+    margin-top: 0.1rem;
+    height: 18px;
 }
 
 #vertical-nav .nav-item img {
@@ -267,6 +267,9 @@ footer #social-media-icons a:hover svg {
     body {
     --horizontal-padding: 0%;
 }
+    #slideshow #square {
+        --arrow-padding: 3rem;
+    }
     main {
         padding: 2rem;
         gap: 2rem
@@ -274,11 +277,12 @@ footer #social-media-icons a:hover svg {
     #vertical-nav {
         position: unset;
         margin: auto;
-        max-width: 10rem;
+        max-width: 14rem;
         padding-top: 2rem;
     }
     #vertical-nav .nav-item:not(#logo-wrapper) {
-        height: 8px;
+        height: 12px;
+        margin-top: 0.5rem;
     }
     footer {
         font-size: 7px;
