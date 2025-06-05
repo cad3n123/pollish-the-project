@@ -1,52 +1,56 @@
 :root {
     --primary: rgb(241, 241, 241);
     --secondary: rgb(0, 0, 0);
-    background-color: var(--primary);
+    --back-black: rgb(0, 0, 0);
+    background-color: var(--back-black);
     color: var(--secondary);
 }
 
 body {
     --horizontal-padding: 12%;
+    --inner-width: calc(100% - 2 * var(--horizontal-padding));
 
     margin: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
     box-sizing: border-box;
-    background-color: rgb(0, 0, 0);
 }
 
-main {
+#slideshow {
     position: relative;
-    width: calc(100% - 2 * var(--horizontal-padding));
+    width: var(--inner-width);
     height: 100%;
     padding: 3rem 0;
     box-sizing: border-box;
-    background-color: rgb(0, 0, 0);
     margin: auto;
     overflow: hidden;
 }
 
-main #background {
+#slideshow #square {
+    --arrow-padding: 5rem;
+
     position: relative;
+    max-width: 100%;
     width: max-content;
     height: 100%;
     display: flex;
     justify-content: center;
-    overflow: hidden;
     justify-self: center;
 }
 
-main #background.translucent {
+#slideshow #square.translucent {
     opacity: 0.5;
 }
 
-main #background img {
-    max-width: 100vw;
+#slideshow #square img {
+    max-width: 100%;
     object-fit: contain;
+    padding: 0 var(--arrow-padding);
+    box-sizing: border-box;
 }
 
-main > img {
+#slideshow > img {
     --size: 30%;
 
     position: absolute;
@@ -72,7 +76,7 @@ main > img {
 
 .arrow {
     --horizontal-padding: 1rem;
-    --distance: 23%;
+    --distance: calc(0.5 * var(--arrow-padding));
 
     position: absolute;
     top: 50%;
@@ -127,8 +131,23 @@ main > img {
     filter: invert(32%) sepia(95%) saturate(4096%) hue-rotate(199deg) brightness(100%) contrast(95%);
 }
 
+main {
+    height: 100vh;
+    width: 100%;
+    padding-bottom: 2rem;
+}
+
+#background {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--inner-width);
+    padding: 3rem 0;
+    box-sizing: border-box;
+}
+
 @media only screen and (max-width: 800px) {
-    main {
+    #slideshow {
         width: 100%;
     }
 }

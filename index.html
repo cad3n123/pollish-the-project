@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Slideshow</title>
+    <title>Pollish</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="">
+    <meta property="og:title" content="Pollish">
     <meta property="og:description" content="">
     <meta property="og:image" content="./images/pollish.png">
     <meta name="twitter:card" content="summary_large_image">
@@ -17,18 +17,20 @@
 
 <body>
     <nav id="vertical-nav">
-        <img id="logo" class="nav-item" src="./images/pollish_inverted.png"
-            alt="Pollish logo">
+        <img id="logo" class="nav-item" src="./images/pollish_inverted.png" alt="Pollish logo">
     </nav>
-    <main>
-        <div id='background'><img src="./images/background.png" alt="background">
+    <img id='background' src="./images/background.png" alt="background">
+    <div id='slideshow'>
+        <div id='square'><img src="./images/square.png" alt="slide-square">
             <button id="prev" class="arrow" aria-label="Previous slide">&#8249;</button>
             <button id="next" class="arrow" aria-label="Next slide">&#8250;</button>
         </div>
 
-
         <img class="slide active" src="./images/img1.png" alt="img1">
         <img class="slide" src="./images/img2.png" alt="img2">
+    </div>
+    <main>
+
     </main>
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
