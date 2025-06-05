@@ -164,9 +164,22 @@ body {
 }
 
 main {
-    height: 100vh;
     width: 100%;
-    padding-bottom: 2rem;
+    z-index: 4;
+    position: relative;
+    padding: 2rem 8rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+main iframe {
+    --size: 10;
+
+    width: calc(560vw * var(--size) / 100);
+    height: calc(315vw * var(--size) / 100);
 }
 
 #background {
