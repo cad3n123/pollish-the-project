@@ -11,7 +11,6 @@
     color: var(--secondary);
     font-family: Source_Code_Pro;
     letter-spacing: 3px;
-    font-size: 12px;
     font-weight: 400;
 }
 
@@ -218,7 +217,13 @@ footer #social-media-icons a:hover svg {
 }
 
 @media only screen and (max-width: 800px) {
-    #slideshow {
-        width: 100%;
+    :root {
+        font-size: 8px;
+    }
+    #vertical-nav {
+        position: unset;
+        margin: auto;
+        max-width: 10rem;
+        padding-top: 2rem;
     }
 }
