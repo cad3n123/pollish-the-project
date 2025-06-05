@@ -161,7 +161,7 @@ body {
 
 .nav-item.red:hover img {
     /* Adjusted hue and saturation for a deeper red */
-    filter: invert(15%) sepia(96%) saturate(6000%) hue-rotate(-5deg) brightness(92%) contrast(102%);
+    filter: invert(15%) sepia(96%) saturate(8500%) hue-rotate(-15deg) brightness(95%) contrast(103%);
 }
 
 main {
