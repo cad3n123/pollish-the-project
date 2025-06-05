@@ -97,7 +97,7 @@ body {
     z-index: 2;
     border: none;
     background: none;
-    color: var(--primary);
+    color: var(--secondary);
     opacity: 0.7;
     font-size: 3rem;
     padding: 0.5rem var(--horizontal-padding);
@@ -186,17 +186,19 @@ main {
 }
 
 footer {
+    --vertical-spacing: 1.75rem;
+
     background-color: var(--back-black);
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 1.25rem;
+    padding-bottom: calc(3 * var(--vertical-spacing));
     position: relative;
     z-index: 4;
 }
 
 footer > * {
-    margin: 1.25rem 0;
+    margin: var(--vertical-spacing) 0;
 }
 
 footer #social-media-icons {
