@@ -160,7 +160,8 @@ body {
 }
 
 .nav-item.red:hover img {
-    filter: invert(15%) sepia(96%) saturate(5180%) hue-rotate(-1deg) brightness(92%) contrast(101%);
+    /* Intensify the red hover color */
+    filter: invert(15%) sepia(96%) saturate(8500%) hue-rotate(-15deg) brightness(95%) contrast(103%);
 }
 
 main {
