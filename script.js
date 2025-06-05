@@ -2,7 +2,7 @@ document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', () => {
     const slides = Array.from(document.querySelectorAll('img.slide'));
-    const background = document.getElementById('background');
+    const square = document.getElementById('square');
     let index = slides.findIndex(slide => slide.classList.contains('active'));
     let timeout;
 
@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
         stopCurrentSound();
         slides.forEach(slide => slide.classList.remove('active'));
         clearTimeout(timeout);
-        background.classList.add('translucent');
+        square.classList.add('translucent');
         timeout = setTimeout(() => {
             slides[i].classList.add('active');
-            background.classList.remove('translucent');
+            square.classList.remove('translucent');
             playClick();
         }, 150);
     }
@@ -74,23 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('prev').addEventListener('click', () => {
         index = (index - 1 + slides.length) % slides.length;
         showSlide(index);
-    });
-
-    // Nav hover behaviour
-    document.querySelectorAll('#vertical-nav img').forEach(img => {
-        if (img.id === 'logo' || img.id === 'listen') {
-            return; // handled purely with CSS
-        }
-        const inverted = img.src;
-        const normal = img.dataset.src;
-        const showNormal = () => { img.src = normal; };
-        const showInverted = () => { img.src = inverted; };
-        ['mouseenter', 'mousedown', 'touchstart'].forEach(evt => {
-            img.addEventListener(evt, showNormal);
-        });
-        ['mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
-            img.addEventListener(evt, showInverted);
-        });
     });
   
     // Play pollish sound when the first slide image is clicked
