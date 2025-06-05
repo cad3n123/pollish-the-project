@@ -277,8 +277,8 @@ footer #social-media-icons a:hover svg {
         font-size: 8px;
     }
     body {
-    --horizontal-padding: 0%;
-}
+        --horizontal-padding: 0%;
+    }
     #slideshow #square {
         --arrow-padding: 3rem;
     }
@@ -287,7 +287,7 @@ footer #social-media-icons a:hover svg {
         gap: 2rem
     }
     #vertical-nav {
-        position: unset;
+        position: relative;
         margin: auto;
         max-width: 14rem;
         padding-top: 2rem;
