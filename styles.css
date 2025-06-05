@@ -48,7 +48,7 @@ body {
     --arrow-padding: 5rem;
 
     position: relative;
-    max-width: 100%;
+    max-width: var(--inner-width);
     width: max-content;
     max-height: 100vh;
     height: 100%;
