@@ -4,11 +4,6 @@ let flashingInterval = null;
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Plyr for each embedded video
-    const players = [
-        new Plyr('#player1'),
-        new Plyr('#player2')
-    ];
 
     const slides = Array.from(document.querySelectorAll('img.slide'));
     console.log(slides);
