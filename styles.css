@@ -177,7 +177,7 @@ main {
 }
 
 #background {
-    position: absolute;
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
     width: var(--inner-width);
