@@ -146,51 +146,21 @@ body {
 #vertical-nav #logo-wrapper img#logo {
     width: 100%;
     display: block;
+    transition: filter 0.3s ease-in-out;
 }
 
 #vertical-nav #listen-wrapper img#listen {
     width: 100%;
     display: block;
+    transition: filter 0.3s ease-in-out;
 }
 
-#logo-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('./images/pollish_inverted.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+#logo-wrapper:hover img#logo {
     filter: invert(32%) sepia(95%) saturate(4096%) hue-rotate(199deg) brightness(100%) contrast(95%);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
 }
 
-#logo-wrapper:hover::after {
-    opacity: 1;
-}
-
-#listen-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('./images/listen.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+#listen-wrapper:hover img#listen {
     filter: invert(15%) sepia(96%) saturate(5180%) hue-rotate(-1deg) brightness(92%) contrast(101%);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#listen-wrapper:hover::after {
-    opacity: 1;
 }
 
 main {
