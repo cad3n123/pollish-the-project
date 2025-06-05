@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const startDate = Date.now();
         let offset = 0;
 
-        if (settings.light) square.classList.add('translucent');
+        square.classList.add('translucent');
 
         flashingInterval = setInterval(() => {
             const currentDate = Date.now();
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     flashingInterval = null;
                     break;
                 } else {
-                    if (settings.light) square.classList.add('translucent');;
+                    square.classList.add('translucent');;
                     i++;
                 }
                 j = 1 - j;
@@ -164,6 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSlide(i) {
         stopCurrentSound();
+        square.classList.remove('translucent');
+        if (flashingInterval) {
+            clearInterval(flashingInterval);
+            flashingInterval = null;
+        }
         slides.forEach(slide => slide.classList.remove('active'));
         clearTimeout(timeout);
         square.classList.add('translucent');
