@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {Array[Array[number]]}
      */
     function morseTiming(morse) {
+        const dot = 120;
+        const dash = 240;
+        const letterGap = 120;
+
         morse += " ";
         let times = [];
         for (let i = 0; i < morse.length - 1; i++) {
