@@ -168,18 +168,21 @@ body {
 
 #vertical-nav .nav-item img {
     display: block;
-    transition: filter 0.3s ease-in-out;
     margin: auto;
     object-fit: contain;
     height: 100%;
 }
 
-.nav-item.blue:hover img {
+img.blue-hover:hover {
+    transition: filter 0.3s ease-in-out;
+    
     /* Darker, more saturated blue on hover */
     filter: invert(50%) sepia(95%) saturate(6000%) hue-rotate(199deg) brightness(95%) contrast(500%);
 }
 
-.nav-item.red:hover img {
+img.red-hover:hover {
+    transition: filter 0.3s ease-in-out;
+
     /* Adjusted hue and saturation for a deeper red */
     filter: invert(15%) sepia(96%) saturate(8500%) hue-rotate(-15deg) brightness(95%) contrast(103%);
 }
