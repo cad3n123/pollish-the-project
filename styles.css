@@ -7,7 +7,8 @@
     --primary: rgb(0, 0, 0);
     --secondary: rgb(241, 241, 241);
     --back-black: rgb(0, 0, 0);
-    background-color: var(--back-black);
+    background-color: red;
+    /* background-color: var(--back-black); */
     color: var(--secondary);
     font-family: Source_Code_Pro;
     letter-spacing: 3px;
@@ -226,7 +227,8 @@ footer {
     --vertical-spacing: 1rem;
     --grey: rgb(96, 96, 96);
 
-    background-color: var(--back-black);
+    /* background-color: var(--back-black); */
+    background-color: orange;
     display: flex;
     align-items: center;
     flex-direction: column;
