@@ -145,7 +145,7 @@ body {
 }
 
 #vertical-nav .nav-item:not(#logo-wrapper) {
-    width: 50%;
+    width: 30%;
 }
 
 #vertical-nav .nav-item img {
