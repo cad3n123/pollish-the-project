@@ -1,9 +1,15 @@
+@font-face {
+    font-family: Source_Code_Pro;
+    src: url(/Source_Code_Pro/static/SourceCodePro-Regular.ttf);
+}
+
 :root {
-    --primary: rgb(241, 241, 241);
-    --secondary: rgb(0, 0, 0);
+    --primary: rgb(0, 0, 0);
+    --secondary: rgb(241, 241, 241);
     --back-black: rgb(0, 0, 0);
     background-color: var(--back-black);
     color: var(--secondary);
+    font-family: Source_Code_Pro;
 }
 
 body {
@@ -200,6 +206,31 @@ main {
     width: var(--inner-width);
     padding: 3rem 0;
     box-sizing: border-box;
+}
+
+footer {
+    background-color: var(--back-black);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 0.75rem;
+}
+
+footer > * {
+    margin: 0.75rem 0;
+}
+
+footer #social-media-icons {
+    padding: 0;
+}
+
+footer #social-media-icons svg {
+    fill: white;
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    line-height: 1;
+    margin: 0 0.25rem;
 }
 
 @media only screen and (max-width: 800px) {
