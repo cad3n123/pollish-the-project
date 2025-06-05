@@ -264,7 +264,7 @@ footer #social-media-icons a:hover svg {
         font-size: 8px;
     }
     body {
-    --horizontal-padding: 12%;
+    --horizontal-padding: 4%;
 }
     main {
         padding: 2rem;
