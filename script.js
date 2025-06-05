@@ -11,7 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeout;
 
     // Setup audio context and preload the click sound
+    const volume = 0.35;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const gainNode = audioCtx.createGain();
+    gainNode.connect(audioCtx.destination);
+    gainNode.gain.value = volume;
     let clickBuffer;
     let pollishBuffer;
     let currentSource;
