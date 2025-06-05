@@ -7,8 +7,7 @@
     --primary: rgb(0, 0, 0);
     --secondary: rgb(241, 241, 241);
     --back-black: rgb(0, 0, 0);
-    background-color: red;
-    /* background-color: var(--back-black); */
+    background-color: var(--back-black);
     color: var(--secondary);
     font-family: Source_Code_Pro;
     letter-spacing: 3px;
@@ -221,14 +220,14 @@ main {
     width: var(--inner-width);
     height: 100%;
     box-sizing: border-box;
+    z-index: -1;
 }
 
 footer {
     --vertical-spacing: 1rem;
     --grey: rgb(96, 96, 96);
 
-    /* background-color: var(--back-black); */
-    background-color: orange;
+    background-color: var(--back-black);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -289,12 +288,10 @@ footer #social-media-icons a:hover svg {
         gap: 2rem
     }
     #vertical-nav {
-        position: relative;
+        position: static;
         margin: auto;
         max-width: 14rem;
         padding-top: 2rem;
-        background-color: var(--back-black);
-        z-index: 10;
     }
     #vertical-nav .nav-item:not(#logo-wrapper) {
         height: 12px;
