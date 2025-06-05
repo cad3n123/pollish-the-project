@@ -188,6 +188,7 @@ main {
     width: 100%;
     z-index: 4;
     position: relative;
+    margin: 10rem 0;
     padding: 2rem calc(1.5 * var(--horizontal-padding));
     box-sizing: border-box;
     display: flex;
@@ -264,7 +265,7 @@ footer #social-media-icons a:hover svg {
         font-size: 8px;
     }
     body {
-    --horizontal-padding: 4%;
+    --horizontal-padding: 0%;
 }
     main {
         padding: 2rem;
