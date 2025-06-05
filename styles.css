@@ -134,29 +134,22 @@ body {
     user-select: none;
 }
 
+#vertical-nav .nav-item {
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
 #vertical-nav #logo-wrapper {
     width: 100%;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
 }
 
-#vertical-nav #listen-wrapper {
-    width: 80%;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
+#vertical-nav .nav-item:not(#logo-wrapper) {
+    width: 50%;
 }
 
-#vertical-nav #logo-wrapper img#logo {
-    width: 100%;
-    display: block;
-    transition: filter 0.3s ease-in-out;
-}
-
-#vertical-nav #listen-wrapper img#listen {
+#vertical-nav .nav-item img {
     width: 100%;
     display: block;
     transition: filter 0.3s ease-in-out;
