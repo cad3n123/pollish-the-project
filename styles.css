@@ -226,4 +226,7 @@ footer #social-media-icons a:hover svg {
         max-width: 10rem;
         padding-top: 2rem;
     }
+    footer {
+        font-size: 6px;
+    }
 }
