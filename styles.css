@@ -291,6 +291,8 @@ footer #social-media-icons a:hover svg {
         margin: auto;
         max-width: 14rem;
         padding-top: 2rem;
+        background-color: var(--back-black);
+        z-index: 10;
     }
     #vertical-nav .nav-item:not(#logo-wrapper) {
         height: 12px;
