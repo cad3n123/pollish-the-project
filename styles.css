@@ -128,7 +128,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 3;
+    z-index: 5;
     max-width: var(--horizontal-padding);
     box-sizing: border-box;
     padding: calc(0.1 * var(--horizontal-padding));
