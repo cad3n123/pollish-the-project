@@ -223,7 +223,8 @@ main {
 }
 
 footer {
-    --vertical-spacing: 1.75rem;
+    --vertical-spacing: 1.25rem;
+    --grey: rgb(96, 96, 96);
 
     background-color: var(--back-black);
     display: flex;
@@ -232,10 +233,21 @@ footer {
     padding-bottom: calc(3 * var(--vertical-spacing));
     position: relative;
     z-index: 4;
+    font-size: 12px;
+    cursor: default;
 }
 
 footer > * {
     margin: var(--vertical-spacing) 0;
+}
+
+footer #privacy-policy {
+    color: var(--grey);
+}
+
+footer #privacy-policy:hover {
+    color: var(--secondary);
+    cursor: pointer;
 }
 
 footer #social-media-icons {
@@ -243,7 +255,7 @@ footer #social-media-icons {
 }
 
 footer #social-media-icons svg {
-    fill: white;
+    fill: var(--secondary);
     display: inline-block;
     height: 1.5rem;
     width: 1.5rem;
@@ -253,11 +265,11 @@ footer #social-media-icons svg {
 }
 
 footer #social-media-icons:hover svg {
-    fill: rgb(64, 64, 64);
+    fill: var(--grey);
 }
 
 footer #social-media-icons a:hover svg {
-    fill: white;
+    fill: var(--secondary);
 }
 
 @media only screen and (max-width: 800px) {
