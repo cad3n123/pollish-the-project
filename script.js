@@ -5,6 +5,7 @@ document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', () => {
     const slides = Array.from(document.querySelectorAll('img.slide'));
+    console.log(slides);
     const square = document.getElementById('square');
     let index = slides.findIndex(slide => slide.classList.contains('active'));
     let timeout;
@@ -178,7 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Play pollish sound when the first slide image is clicked
     if (slides[0]) {
         slides[0].addEventListener('click', playPollish);
-    } else if (slides[1]) {
+    }
+    if (slides[1]) {
         slides[1].addEventListener('click', playRareroom);
     }
 });
