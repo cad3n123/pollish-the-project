@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    --horizontal-padding: 12%;
+    --horizontal-padding: 6%;
     --inner-width: calc(100% - 2 * var(--horizontal-padding));
 
     margin: 0;
