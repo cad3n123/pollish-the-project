@@ -175,7 +175,8 @@ body {
 }
 
 .nav-item.blue:hover img {
-    filter: invert(32%) sepia(95%) saturate(4096%) hue-rotate(199deg) brightness(100%) contrast(95%);
+    /* Darker blue on hover */
+    filter: invert(32%) sepia(95%) saturate(4096%) hue-rotate(199deg) brightness(70%) contrast(95%);
 }
 
 .nav-item.red:hover img {
