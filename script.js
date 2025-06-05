@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Nav hover behaviour
     document.querySelectorAll('#vertical-nav img').forEach(img => {
-        if (img.id === 'logo') {
+        if (img.id === 'logo' || img.id === 'listen') {
             return; // handled purely with CSS
         }
         const inverted = img.src;

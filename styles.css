@@ -129,7 +129,20 @@ body {
     position: relative;
 }
 
+#vertical-nav #listen-wrapper {
+    width: 80%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
 #vertical-nav #logo-wrapper img#logo {
+    width: 100%;
+    display: block;
+}
+
+#vertical-nav #listen-wrapper img#listen {
     width: 100%;
     display: block;
 }
@@ -151,6 +164,26 @@ body {
 }
 
 #logo-wrapper:hover::after {
+    opacity: 1;
+}
+
+#listen-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./images/listen.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: invert(15%) sepia(96%) saturate(5180%) hue-rotate(-1deg) brightness(92%) contrast(101%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#listen-wrapper:hover::after {
     opacity: 1;
 }
 
