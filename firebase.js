@@ -23,11 +23,11 @@ document.getElementById("subscribe-form").addEventListener("submit", (e) => {
     // Save email to Firebase
     push(ref(database, 'subscribers'), { email, timestamp: Date.now() })
         .then(() => {
-            document.getElementById("result").innerHTML = "Thanks for subscribing!";
+            console.log("Thanks for subscribing!");
             document.getElementById("email").value = "";
         })
         .catch((error) => {
-            document.getElementById("result").innerHTML = "Something went wrong.";
+            console.log("Something went wrong.")
             console.error(error);
         });
 });
