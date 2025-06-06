@@ -179,7 +179,7 @@ body {
 }
 
 img.blue-hover, img.red-hover {
-    transition: filter 0.3s ease-in-out;
+    transition: filter 0.3s;
 }
 
 img.blue-hover:hover {
