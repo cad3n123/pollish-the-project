@@ -4,6 +4,7 @@ let flashingInterval = null;
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', () => {
+    setCountryList();
 
     const slides = Array.from(document.querySelectorAll('img.slide'));
     console.log(slides);
@@ -198,4 +199,26 @@ document.addEventListener('DOMContentLoaded', () => {
         slides[1].addEventListener('click', playRareroom);
     }
 });
-
+function setCountryList() {
+    fetch("https://restcountries.com/v3.1/all?fields=name")
+        .then((res) => res.json())
+        .then((data) => {
+            const select = document.querySelector("select[name='COUNTRY']");
+            data
+            .sort((a, b) => a.name.common.localeCompare(b.name.common))
+            .forEach((country) => {
+                const opt = document.createElement("option");
+                opt.value = country.name.common;
+                opt.textContent = country.name.common;
+                select.appendChild(opt);
+            });
+        });
+}
+function openNewsletterForm() {
+    document.getElementById('shadow').classList.add('active');
+    document.getElementById('mc_embed_shell').classList.add('active');
+}
+function closeNewsletterForm() {
+    document.getElementById('shadow').classList.remove('active');
+    document.getElementById('mc_embed_shell').classList.remove('active');
+}

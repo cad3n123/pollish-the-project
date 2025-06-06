@@ -158,6 +158,9 @@ body {
     user-select: none;
     position: relative;
     width: max-content;
+    background-color: unset;
+    border: unset;
+    padding: unset;
 }
 
 #vertical-nav #logo-wrapper {
@@ -181,6 +184,20 @@ body {
     margin: auto;
     object-fit: contain;
     height: 100%;
+}
+
+#shadow {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.9;
+    z-index: 11;
+}
+
+#shadow.active {
+    display: block;
 }
 
 img.blue-hover, img.red-hover {
@@ -287,6 +304,110 @@ footer #social-media-icons:hover svg {
 
 footer #social-media-icons a:hover svg {
     fill: var(--secondary);
+}
+
+#mc_embed_shell {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#mc_embed_shell.active {
+    display: block;
+}
+
+#subscribe-border {
+}
+
+#mc_embed_shell #mc_embed_signup {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#mc_embed_shell #mc_embed_signup form {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 2.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#subscribe-x {
+    align-self: end;
+    width: 3.75rem;
+    padding: 1rem;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 5%;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group img, #mc_embed_shell #mc_embed_signup .optionalParent {
+    width: 20rem;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group input, #mc_embed_shell #mc_embed_signup .mc-field-group select {
+    position: absolute;
+    background-color: unset;
+    border: unset;
+    font-size: 1rem;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0.5rem;
+    font-family: Source_Code_Pro;
+
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-text-fill-color: inherit !important;
+    background-color: transparent !important;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group input::placeholder {
+    color: black;
+    opacity: 1;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group div.mce_inline_error {
+    display: none !important;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div input, #mc_embed_shell #mc_embed_signup .optionalParent div p {
+    font-family: Source_Code_Pro;
+    background-color: var(--secondary);
+    color: var(--primary);
+    height: 2.25rem;
+    margin: 0;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div p a {
+    height: 100%;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div p a span {
+    height: 100%;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div p a span img {
+    width: unset !important;
+    padding: 4px !important;
+    height: 100% !important;
 }
 
 @media only screen and (max-width: 800px) {
