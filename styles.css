@@ -168,7 +168,7 @@ body {
 
 #vertical-nav .nav-item:not(#logo-wrapper) {
     margin-top: 0.1rem;
-    height: 18px;
+    height: 20px;
 }
 
 #vertical-nav .nav-item img {
