@@ -1,35 +1,34 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Use the Firebase modular SDK loaded via type="module" script tags.
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAonmWFMz-NGLqGT6i4gDLyBkgZ4fHsS4Q",
-    authDomain: "pollish-751f2.firebaseapp.com",
-    databaseURL: "https://pollish-751f2-default-rtdb.firebaseio.com",
-    projectId: "pollish-751f2",
-    storageBucket: "pollish-751f2.firebasestorage.app",
-    messagingSenderId: "818576769248",
-    appId: "1:818576769248:web:e3ec53708bc4e40d5a5085"
+    apiKey: 'AIzaSyAonmWFMz-NGLqGT6i4gDLyBkgZ4fHsS4Q',
+    authDomain: 'pollish-751f2.firebaseapp.com',
+    databaseURL: 'https://pollish-751f2-default-rtdb.firebaseio.com',
+    projectId: 'pollish-751f2',
+    storageBucket: 'pollish-751f2.firebasestorage.app',
+    messagingSenderId: '818576769248',
+    appId: '1:818576769248:web:e3ec53708bc4e40d5a5085'
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = firebase.database();
+const database = getDatabase(app);
 
-document.getElementById("subscribe-form").addEventListener("submit", function (e) {
+document.getElementById('subscribe-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById("email").value;
+    const email = document.getElementById('email').value;
 
     // Save email to Firebase
-    database.ref("subscribers").push({ email: email, timestamp: Date.now() })
+    push(ref(database, 'subscribers'), { email, timestamp: Date.now() })
         .then(() => {
-            document.getElementById("result").innerHTML = "Thanks for subscribing!";
-            document.getElementById("email").value = "";
+            document.getElementById('result').innerHTML = 'Thanks for subscribing!';
+            document.getElementById('email').value = '';
         })
         .catch((error) => {
-            document.getElementById("result").innerHTML = "Something went wrong.";
+            document.getElementById('result').innerHTML = 'Something went wrong.';
             console.error(error);
         });
 });
