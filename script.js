@@ -199,14 +199,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-document.getElementById("subscribe-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = e.target.email.value;
-  const res = await fetch("/subscribe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-  const result = await res.text();
-  document.getElementById("result").textContent = result;
-});
+
