@@ -198,6 +198,7 @@ body {
     background-color: black;
     opacity: 0.9;
     z-index: 11;
+    top: 0;
 }
 
 #shadow.active {
@@ -324,10 +325,17 @@ footer #social-media-icons a:hover svg {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-width: 99%;
+    width: max-content;
 }
 
 #mc_embed_shell.active {
     display: block;
+}
+
+#mc_embed_shell #subscribe-border {
+    width: 32rem;
+    max-width: 100%;
 }
 
 #mc_embed_shell #mc_embed_signup {
@@ -356,15 +364,19 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group {
-    width: max-content;
     display: flex;
     align-items: center;
     padding: 0;
     margin-bottom: 5%;
+    min-height: 0;
 }
 
-#mc_embed_shell #mc_embed_signup .mc-field-group img, #mc_embed_shell #mc_embed_signup .optionalParent {
-    width: 20rem;
+#mc_embed_shell #mc_embed_signup .mc-field-group, #mc_embed_shell #mc_embed_signup .optionalParent {
+    width: 70%;
+}
+
+#mc_embed_shell #mc_embed_signup .mc-field-group img {
+    width: 100%;
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group input, #mc_embed_shell #mc_embed_signup .mc-field-group select {
@@ -405,6 +417,22 @@ footer #social-media-icons a:hover svg {
     margin: 0;
 }
 
+#mc_embed_shell #mc_embed_signup .optionalParent .foot {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div input {
+    font-size: 0.9rem;
+    padding: 0 1.5rem;
+    line-height: 2rem;
+}
+
+#mc_embed_shell #mc_embed_signup .optionalParent div p {
+    margin: 0 !important;
+}
+
 #mc_embed_shell #mc_embed_signup .optionalParent div p a {
     height: 100%;
 }
@@ -441,6 +469,10 @@ footer #social-media-icons a:hover svg {
     }
     #vertical-nav .nav-item:not(#logo-wrapper) {
         height: 12px;
+    }
+    #subscribe-x {
+        width: 3.5rem;
+        pad: 0.75rem;
     }
     footer {
         font-size: 6px;
