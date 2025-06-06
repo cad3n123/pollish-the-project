@@ -25,11 +25,11 @@ document.getElementById("subscribe-form").addEventListener("submit", function (e
     // Save email to Firebase
     database.ref("subscribers").push({ email: email, timestamp: Date.now() })
         .then(() => {
-            document.getElementById("result").textContent = "Thanks for subscribing!";
+            document.getElementById("result").innerHTML = "Thanks for subscribing!";
             document.getElementById("email").value = "";
         })
         .catch((error) => {
-            document.getElementById("result").textContent = "Something went wrong.";
+            document.getElementById("result").innerHTML = "Something went wrong.";
             console.error(error);
         });
 });
