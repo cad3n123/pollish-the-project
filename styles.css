@@ -39,6 +39,11 @@ body {
     box-sizing: border-box;
 }
 
+#subscribe-form-wrapper {
+    position: relative;
+    z-index: 6;
+}
+
 #slideshow {
     position: relative;
     width: var(--inner-width);
@@ -113,7 +118,7 @@ body {
     color: var(--secondary);
     opacity: 0.7;
     font-size: 3rem;
-    padding: 0.5rem calc(2 * var(--horizontal-padding));
+    padding: 0.5rem calc(3 * var(--horizontal-padding));
     cursor: pointer;
 }
 
@@ -269,10 +274,10 @@ footer #social-media-icons {
 footer #social-media-icons svg {
     fill: var(--secondary);
     display: inline-block;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.25rem;
+    width: 1.25rem;
     line-height: 1;
-    margin: 0 0.25rem;
+    margin: 0 0.1rem;
     transition: fill 0.3s ease;
 }
 
