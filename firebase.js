@@ -1,4 +1,5 @@
-// Assumes the compat SDKs are loaded via script tags in index.html.
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,14 +14,14 @@ const firebaseConfig = {
 
 // Initialize Firebase using the global `firebase` object provided by the compat SDKs
 const app = firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+const database = getDatabase(app);
 
-document.getElementById("subscribe-form").addEventListener("submit", function (e) {
+document.getElementById("subscribe-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
 
     // Save email to Firebase
-    database.ref("subscribers").push({ email: email, timestamp: Date.now() })
+    push(ref(database, 'subscribers'), { email, timestamp: Date.now() })
         .then(() => {
             document.getElementById("result").innerHTML = "Thanks for subscribing!";
             document.getElementById("email").value = "";
