@@ -106,7 +106,7 @@ body {
 }
 
 .arrow {
-    --horizontal-padding: 1rem;
+    --horizontal-padding: 1vw;
     --distance: calc(0.5 * var(--arrow-padding));
 
     position: absolute;
