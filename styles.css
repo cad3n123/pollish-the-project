@@ -234,6 +234,7 @@ footer {
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-top: var(--vertical-spacing);
     padding-bottom: calc(3 * var(--vertical-spacing));
     position: relative;
     z-index: 4;
