@@ -344,6 +344,7 @@ footer #social-media-icons a:hover svg {
     align-self: end;
     width: 3.75rem;
     padding: 1rem;
+    cursor: pointer;
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group {
