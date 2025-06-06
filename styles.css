@@ -81,8 +81,11 @@ body {
     max-height: 100%;
 }
 
-#slideshow > img {
+#slideshow .slide {
     --size: 30%;
+    --contrast: 1000%;
+    --brightness: 75%;
+    --transition-time: 0.4s;
 
     position: absolute;
     width: var(--size);
@@ -92,6 +95,7 @@ body {
     left: calc(50% - var(--size) / 2);
     padding: 0 2rem;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .slide {
@@ -200,13 +204,20 @@ body {
     display: block;
 }
 
+img.blue-hover {
+    --contrast: 500%;
+    --brightness: 95%;
+}
+
 img.blue-hover, img.red-hover {
-    transition: filter 0.3s;
+    --transition-time: 0.3s;
+
+    transition: filter var(--transition-time);
 }
 
 img.blue-hover:hover {
     /* Darker, more saturated blue on hover */
-    filter: invert(50%) sepia(95%) saturate(6000%) hue-rotate(199deg) brightness(95%) contrast(500%);
+    filter: invert(50%) sepia(95%) saturate(6000%) hue-rotate(199deg) brightness(var(--brightness)) contrast(var(--contrast));
 }
 
 img.red-hover:hover {
@@ -267,7 +278,7 @@ footer {
     padding-bottom: calc(3 * var(--vertical-spacing));
     position: relative;
     z-index: 4;
-    font-size: 9px;
+    font-size: 8px;
     cursor: default;
 }
 
@@ -291,8 +302,8 @@ footer #social-media-icons {
 footer #social-media-icons svg {
     fill: var(--secondary);
     display: inline-block;
-    height: 1.25rem;
-    width: 1.25rem;
+    height: 1.1rem;
+    width: 1.1rem;
     line-height: 1;
     margin: 0 0.1rem;
     transition: fill 0.3s ease;
@@ -317,9 +328,6 @@ footer #social-media-icons a:hover svg {
 
 #mc_embed_shell.active {
     display: block;
-}
-
-#subscribe-border {
 }
 
 #mc_embed_shell #mc_embed_signup {
@@ -435,6 +443,6 @@ footer #social-media-icons a:hover svg {
         height: 12px;
     }
     footer {
-        font-size: 7px;
+        font-size: 6px;
     }
 }
