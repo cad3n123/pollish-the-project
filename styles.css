@@ -84,7 +84,7 @@ body {
 #slideshow .slide {
     --size: 30%;
     --contrast: 1000%;
-    --brightness: 75%;
+    --brightness: 60%;
     --transition-time: 0.4s;
 
     position: absolute;
