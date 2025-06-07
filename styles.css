@@ -534,7 +534,7 @@ footer #social-media-icons a:hover svg {
     width: var(--width) !important;
     height: var(--height) !important;
     padding: 4px !important;
-    background-color: #e1ddd1;
+    filter: invert(1);
 }
 
 @media only screen and (max-width: 800px) {

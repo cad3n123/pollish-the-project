@@ -225,3 +225,10 @@ function closeNewsletterForm() {
     document.getElementById('shadow').classList.remove('active');
     document.getElementById('mc_embed_shell').classList.remove('active');
 }
+
+document.getElementById('logo').addEventListener("click", () => {
+   window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // for smooth scroll; remove this line for instant jump
+  });
+});
