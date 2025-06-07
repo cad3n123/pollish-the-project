@@ -268,7 +268,7 @@ main {
 }
 
 footer {
-    --vertical-spacing: 1rem;
+    --vertical-spacing: 0.75rem;
     --grey: rgb(96, 96, 96);
 
     background-color: var(--back-black);
