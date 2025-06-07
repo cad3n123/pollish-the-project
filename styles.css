@@ -521,6 +521,7 @@ footer #social-media-icons a:hover svg {
     height: 1.9rem;
     background-color: #e1ddd1;
     transition: unset;
+    line-height: unset;
 }
 
 #mc_embed_shell #mc_embed_signup #mailchimp-logo {
