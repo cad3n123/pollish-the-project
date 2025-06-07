@@ -542,6 +542,9 @@ footer #social-media-icons a:hover svg {
         width: 3.5rem;
         pad: 0.75rem;
     }
+    #mc_embed_shell #subscribe-border { 
+        width: 32rem;
+    }
     footer {
         font-size: 6px;
     }
