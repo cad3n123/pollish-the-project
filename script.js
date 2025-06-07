@@ -1,5 +1,6 @@
 // Global Vars
 let flashingInterval = null;
+let index = 0;
 
 document.documentElement.classList.replace('no-js', 'js');
 
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = Array.from(document.querySelectorAll('img.slide'));
     console.log(slides);
     const square = document.getElementById('square');
-    let index = slides.findIndex(slide => slide.classList.contains('active'));
+    index = slides.findIndex(slide => slide.classList.contains('active'));
     let timeout;
 
     // Setup audio context and preload the click sound
