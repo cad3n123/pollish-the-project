@@ -454,8 +454,15 @@ footer #social-media-icons a:hover svg {
     font-family: Source_Code_Pro;
 }
 
-#mc_embed_shell #mc_embed_signup .mc-field-group img {
+#mc_embed_shell #mc_embed_signup .mc-field-group .input-background {
     width: 100%;
+}
+
+.placeholder {
+    width: max-content;
+    position: absolute;
+    padding: 0 0.8rem;
+    height: 1.2rem;
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group input, #mc_embed_shell #mc_embed_signup .mc-field-group select {

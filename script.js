@@ -1,5 +1,10 @@
 // Elements
 const $$slides = Array.from(document.querySelectorAll('img.slide')); 
+const $emailInput = document.getElementById('mce-EMAIL');
+const $emailPlaceholderImage = document.getElementById('email-placeholder');
+const $countrySelect = document.getElementById('mce-COUNTRY');
+const $countryPlaceholder = document.getElementById('country-placeholder');
+const $newsletterForm = document.getElementById('mc-embedded-subscribe-form');
 
 // Constant Vars
 const volume = 0.35;
@@ -237,5 +242,24 @@ document.addEventListener('keydown', (event) => {
     incrementSlides();
   } else if (event.key === 'ArrowLeft') {
     decrementSlides();
+  }
+});
+$emailInput.addEventListener('input', () => {
+  if ($emailInput.value.trim() === '') {
+    $emailPlaceholderImage.style.display = 'block';
+  } else {
+    $emailPlaceholderImage.style.display = 'none';
+  }
+});
+$countrySelect.addEventListener('change', () => {
+  if ($countrySelect.value === '') {
+    $countryPlaceholder.style.display = 'block';
+  } else {
+    $countryPlaceholder.style.display = 'none';
+  }
+});
+$newsletterForm.addEventListener('submit', (event) => {
+  if ($countrySelect.value === '') {
+    event.preventDefault(); // stop the form from submitting
   }
 });
