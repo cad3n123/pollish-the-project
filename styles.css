@@ -382,6 +382,9 @@ footer #social-media-icons a:hover svg {
 #mc_embed_shell {
     visibility: hidden;
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 20;
     max-width: 99%;
     width: max-content;
