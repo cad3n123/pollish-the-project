@@ -231,11 +231,24 @@ function closeNewsletterForm() {
     document.getElementById('shadow').classList.remove('active');
     document.getElementById('mc_embed_shell').classList.remove('active');
 }
-document.getElementById('logo').addEventListener("click", () => {
-   window.scrollTo({
-    top: 0,
-    behavior: 'smooth' // for smooth scroll; remove this line for instant jump
-  });
+document.getElementById('logo').addEventListener('click', () => {
+  const start = window.scrollY;
+  const duration = 700; // roughly 30% faster than default 1s
+  const startTime = performance.now();
+
+  function scrollStep(timestamp) {
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    window.scrollTo(0, start * (1 - progress));
+    if (progress < 1) {
+      requestAnimationFrame(scrollStep);
+    }
+  }
+
+  requestAnimationFrame(scrollStep);
+});
+
+document.getElementById('watch-btn').addEventListener('click', () => {
+  window.location.href = 'https://youtube.com/@logangladden?si=z2cRRmd4J6Z_atsu';
 });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') {
