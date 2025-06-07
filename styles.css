@@ -449,6 +449,12 @@ footer #social-media-icons a:hover svg {
     width: 74%;
 }
 
+/* Center the subscribe button container */
+#mc_embed_shell #mc_embed_signup .optionalParent {
+    display: flex;
+    justify-content: center;
+}
+
 #mc_embed_shell #mc_embed_signup #mce-responses > div {
     width: 100%;
     margin: unset;
