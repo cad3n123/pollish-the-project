@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     function playPollish() {
-        playBuffer(pollishBuffer);
+        playBuffer(pollishBuffer, true);
     }
     
     /**
@@ -163,23 +163,30 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('curtain').classList.remove('active');
     }, 100);
 });
-function playBuffer(buffer) {
+function playBuffer(buffer, isSlide1) {
     if (!buffer) return;
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
     stopCurrentSound();
+    if (isSlide1) {
+        $$slides[0].src = 'images/pollish_open.png';
+    }
     const source = audioCtx.createBufferSource();
     source.buffer = buffer;
     source.connect(audioCtx.destination);
     source.start(0);
     currentSource = source;
+    source.onended = () => {
+        $$slides[0].src = 'images/pollish_closed.png';
+    }
 }
 function stopCurrentSound() {
     if (currentSource) {
         try { currentSource.stop(); } catch (e) {}
         currentSource = null;
     }
+    $$slides[0].src = 'images/pollish_closed.png';
 }
 function showSlide(i) {
     stopCurrentSound();
@@ -198,7 +205,7 @@ function showSlide(i) {
     }, 150);
 }
 function playClick() {
-    playBuffer(clickBuffer);
+    playBuffer(clickBuffer, false);
 }
 function incrementSlides() {
     index = (index + 1) % $$slides.length;
