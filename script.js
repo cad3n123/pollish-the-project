@@ -181,15 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
     }
 
-    document.getElementById('next').addEventListener('click', () => {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-    });
+    document.getElementById('next').addEventListener('click', incrementSlides);
 
-    document.getElementById('prev').addEventListener('click', () => {
-        index = (index - 1 + slides.length) % slides.length;
-        showSlide(index);
-    });
+    document.getElementById('prev').addEventListener('click', decrementSlides);
   
     // Play pollish sound when the first slide image is clicked
     if (slides[0]) {
@@ -202,6 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('curtain').classList.remove('active');
     // }, 0);
 });
+function incrementSlides() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+}
+function decrementSlides() {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+}
 function setCountryList() {
     fetch("https://restcountries.com/v3.1/all?fields=name")
         .then((res) => res.json())
@@ -225,10 +227,16 @@ function closeNewsletterForm() {
     document.getElementById('shadow').classList.remove('active');
     document.getElementById('mc_embed_shell').classList.remove('active');
 }
-
 document.getElementById('logo').addEventListener("click", () => {
    window.scrollTo({
     top: 0,
     behavior: 'smooth' // for smooth scroll; remove this line for instant jump
   });
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowRight') {
+    incrementSlides();
+  } else if (event.key === 'ArrowLeft') {
+    decrementSlides();
+  }
 });

@@ -217,7 +217,7 @@ body {
 
 #vertical-nav .nav-item:not(#logo-wrapper) {
     margin-top: 0.1rem;
-    height: 20px;
+    height: 22px;
 }
 
 #vertical-nav .nav-item img {
