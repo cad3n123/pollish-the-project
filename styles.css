@@ -75,7 +75,7 @@ body {
     display: flex;
     justify-content: center;
     justify-self: center;
-    padding-bottom: 3rem;
+    margin-bottom: 3rem;
     box-sizing: border-box;
 }
 
