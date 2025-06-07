@@ -233,7 +233,7 @@ function closeNewsletterForm() {
 }
 document.getElementById('logo').addEventListener('click', () => {
   const start = window.scrollY;
-  const duration = 700; // roughly 30% faster than default 1s
+  const duration = 400; // faster scroll back to top
   const startTime = performance.now();
 
   function scrollStep(timestamp) {
