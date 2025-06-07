@@ -493,13 +493,13 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell #mc_embed_signup #mailchimp-logo {
-    --size: 7;
+    --size: 6;
     --width: calc(var(--size) * 0.5rem);
     --height: calc(var(--size) * 0.25rem);
 
     margin: 0 !important;
     position: absolute;
-    right: var(--width);
+    right: calc(0.85 * var(--width));
     bottom: calc(2 * var(--height));
 }
 
