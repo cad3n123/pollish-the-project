@@ -454,26 +454,32 @@ footer #social-media-icons a:hover svg {
     font-size: 0.9rem;
     padding: 0 1.5rem;
     line-height: 2rem;
+    background-color: #e1ddd1;
 }
 
-#mc_embed_shell #mc_embed_signup .optionalParent div p {
+#mc_embed_shell #mc_embed_signup #mailchimp-logo {
     margin: 0 !important;
 }
 
-#mc_embed_shell #mc_embed_signup .optionalParent div p a {
+#mc_embed_shell #mc_embed_signup #mailchimp-logo a {
     height: 100%;
 }
 
-#mc_embed_shell #mc_embed_signup .optionalParent div p a span {
+#mc_embed_shell #mc_embed_signup #mailchimp-logo a span {
     height: 100%;
 }
 
-#mc_embed_shell #mc_embed_signup .optionalParent div p a span img {
-    width: unset !important;
+#mc_embed_shell #mc_embed_signup #mailchimp-logo a span img {
+    --size: 7;
+    --width: calc(var(--size) * 0.5rem);
+    --height: calc(var(--size) * 0.25rem);
+
+    width: var(--width) !important;
+    height: var(--height) !important;
     padding: 4px !important;
-    height: 100% !important;
     position: absolute;
-
+    background-color: #e1ddd1;
+    right: var(--width);
 }
 
 @media only screen and (max-width: 800px) {
