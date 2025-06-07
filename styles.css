@@ -594,4 +594,9 @@ footer #social-media-icons a:hover svg {
     footer {
         font-size: 6px;
     }
+
+    footer #social-media-icons svg {
+        height: calc(1.1rem * 1.03);
+        width: calc(1.1rem * 1.03);
+    }
 }
