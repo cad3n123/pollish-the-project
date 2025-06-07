@@ -349,30 +349,44 @@ footer #social-media-icons a:hover svg {
     margin: 0;
     height: 100%;
     width: 100%;
-    padding: 2.5rem;
+    padding: 2.75rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 #subscribe-x {
+    position: absolute;
     align-self: end;
-    width: 3.75rem;
+    width: 3.25rem;
     padding: 1rem;
+    padding-right: 0.5rem;
     cursor: pointer;
+    top: 2rem;
 }
 
-#mc_embed_shell #mc_embed_signup .mc-field-group {
+#mc_embed_shell #mc_embed_signup .mc-field-group, #mc_embed_shell #mc_embed_signup #mce-responses {
     display: flex;
     align-items: center;
     padding: 0;
-    margin-bottom: 5%;
+    margin-bottom: 4.5%;
     min-height: 0;
 }
 
-#mc_embed_shell #mc_embed_signup .mc-field-group, #mc_embed_shell #mc_embed_signup .optionalParent {
-    width: 70%;
+#mc_embed_shell #mc_embed_signup .mc-field-group, #mc_embed_shell #mc_embed_signup .optionalParent, #mc_embed_shell #mc_embed_signup #mce-responses {
+    width: 74%;
+}
+
+#mc_embed_shell #mc_embed_signup #mce-responses > div {
+    width: 100%;
+    margin: unset;
+    font-size: 0.75rem;
+    text-align: center;
+    margin: unset;
+    padding: unset;
+    font-family: Source_Code_Pro;
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group img {
