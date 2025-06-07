@@ -503,9 +503,9 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell #mc_embed_signup .optionalParent div input {
-    font-size: 0.9rem;
-    padding: 0 1.5rem;
-    line-height: 2rem;
+    font-size: 0.6rem;
+    padding: 0 0.75rem;
+    height: 1.9rem;
     background-color: #e1ddd1;
     transition: unset;
 }
