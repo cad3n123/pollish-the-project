@@ -125,6 +125,10 @@ body {
     cursor: pointer;
 }
 
+#slideshow .slide.pollish {
+    --size: 35%;
+}
+
 .slide {
     opacity: 0;
     transition: none;
