@@ -611,6 +611,9 @@ footer #social-media-icons a:hover svg {
     #vertical-nav .nav-item:not(#logo-wrapper) {
         height: 12px;
     }
+    #subscribe-x {
+        width: 3rem;
+    }
     #mc_embed_shell #subscribe-border { 
         width: 32rem;
     }
