@@ -328,7 +328,7 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell {
-    display: none;
+    visibility: hidden;
     position: fixed;
     z-index: 20;
     top: 50%;
@@ -336,10 +336,14 @@ footer #social-media-icons a:hover svg {
     transform: translate(-50%, -50%);
     max-width: 99%;
     width: max-content;
+    opacity: 0;
+
+    transition: visibility 0s, opacity 0.5s linear;
 }
 
 #mc_embed_shell.active {
-    display: block;
+    visibility: visible;
+    opacity: 1;
 }
 
 #mc_embed_shell #subscribe-border {
@@ -468,6 +472,8 @@ footer #social-media-icons a:hover svg {
     width: unset !important;
     padding: 4px !important;
     height: 100% !important;
+    position: absolute;
+
 }
 
 @media only screen and (max-width: 800px) {
