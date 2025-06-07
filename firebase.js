@@ -15,19 +15,3 @@ const firebaseConfig = {
 // Initialize Firebase using the global `firebase` object provided by the compat SDKs
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
-
-document.getElementById("subscribe-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-
-    // Save email to Firebase
-    push(ref(database, 'subscribers'), { email, timestamp: Date.now() })
-        .then(() => {
-            console.log("Thanks for subscribing!");
-            document.getElementById("email").value = "";
-        })
-        .catch((error) => {
-            console.log("Something went wrong.")
-            console.error(error);
-        });
-});

@@ -1,27 +1,29 @@
+// Elements
+const $$slides = Array.from(document.querySelectorAll('img.slide')); 
+
+// Constant Vars
+const volume = 0.35;
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const gainNode = audioCtx.createGain();
+
 // Global Vars
 let flashingInterval = null;
 let index = 0;
+let currentSource;
+let timeout;
+let clickBuffer;
+let pollishBuffer;
 
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', () => {
     setCountryList();
 
-    const slides = Array.from(document.querySelectorAll('img.slide'));
-    console.log(slides);
     const square = document.getElementById('square');
-    index = slides.findIndex(slide => slide.classList.contains('active'));
-    let timeout;
+    index = $$slides.findIndex(slide => slide.classList.contains('active'));
 
-    // Setup audio context and preload the click sound
-    const volume = 0.35;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const gainNode = audioCtx.createGain();
     gainNode.connect(audioCtx.destination);
     gainNode.gain.value = volume;
-    let clickBuffer;
-    let pollishBuffer;
-    let currentSource;
 
     fetch('./audios/slide_click.m4a')
         .then(resp => resp.arrayBuffer())
@@ -36,30 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(buffer => {
             pollishBuffer = buffer;
         });
-
-    function stopCurrentSound() {
-        if (currentSource) {
-            try { currentSource.stop(); } catch (e) {}
-            currentSource = null;
-        }
-    }
-
-    function playBuffer(buffer) {
-        if (!buffer) return;
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-        stopCurrentSound();
-        const source = audioCtx.createBufferSource();
-        source.buffer = buffer;
-        source.connect(audioCtx.destination);
-        source.start(0);
-        currentSource = source;
-    }
-
-    function playClick() {
-        playBuffer(clickBuffer);
-    }
 
     function playPollish() {
         playBuffer(pollishBuffer);
@@ -165,44 +143,64 @@ document.addEventListener('DOMContentLoaded', () => {
         currentAudioBufferSource = source;
     }
 
-    function showSlide(i) {
-        stopCurrentSound();
-        square.classList.remove('translucent');
-        if (flashingInterval) {
-            clearInterval(flashingInterval);
-            flashingInterval = null;
-        }
-        slides.forEach(slide => slide.classList.remove('active'));
-        clearTimeout(timeout);
-        square.classList.add('translucent');
-        timeout = setTimeout(() => {
-            slides[i].classList.add('active');
-            square.classList.remove('translucent');
-            playClick();
-        }, 150);
-    }
-
     document.getElementById('next').addEventListener('click', incrementSlides);
 
     document.getElementById('prev').addEventListener('click', decrementSlides);
   
     // Play pollish sound when the first slide image is clicked
-    if (slides[0]) {
-        slides[0].addEventListener('click', playPollish);
+    if ($$slides[0]) {
+        $$slides[0].addEventListener('click', playPollish);
     }
-    if (slides[1]) {
-        slides[1].addEventListener('click', playRareroom);
+    if ($$slides[1]) {
+        $$slides[1].addEventListener('click', playRareroom);
     }
     // setTimeout(() => {
         document.getElementById('curtain').classList.remove('active');
     // }, 0);
 });
+function playBuffer(buffer) {
+    if (!buffer) return;
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    stopCurrentSound();
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioCtx.destination);
+    source.start(0);
+    currentSource = source;
+}
+function stopCurrentSound() {
+    if (currentSource) {
+        try { currentSource.stop(); } catch (e) {}
+        currentSource = null;
+    }
+}
+function showSlide(i) {
+    stopCurrentSound();
+    square.classList.remove('translucent');
+    if (flashingInterval) {
+        clearInterval(flashingInterval);
+        flashingInterval = null;
+    }
+    $$slides.forEach(slide => slide.classList.remove('active'));
+    clearTimeout(timeout);
+    square.classList.add('translucent');
+    timeout = setTimeout(() => {
+        $$slides[i].classList.add('active');
+        square.classList.remove('translucent');
+        playClick();
+    }, 150);
+}
+function playClick() {
+    playBuffer(clickBuffer);
+}
 function incrementSlides() {
-    index = (index + 1) % slides.length;
+    index = (index + 1) % $$slides.length;
     showSlide(index);
 }
 function decrementSlides() {
-    index = (index - 1 + slides.length) % slides.length;
+    index = (index - 1 + $$slides.length) % $$slides.length;
     showSlide(index);
 }
 function setCountryList() {
