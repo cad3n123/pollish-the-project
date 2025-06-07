@@ -159,9 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($$slides[1]) {
         $$slides[1].addEventListener('click', playRareroom);
     }
-    // setTimeout(() => {
+    setTimeout(() => {
         document.getElementById('curtain').classList.remove('active');
-    // }, 0);
+    }, 100);
 });
 function playBuffer(buffer) {
     if (!buffer) return;
@@ -233,7 +233,7 @@ function closeNewsletterForm() {
 }
 document.getElementById('logo').addEventListener('click', () => {
   const start = window.scrollY;
-  const duration = 200; // faster scroll back to top
+  const duration = 200;
   const startTime = performance.now();
 
   function scrollStep(timestamp) {
