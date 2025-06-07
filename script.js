@@ -18,6 +18,7 @@ let currentSource;
 let timeout;
 let clickBuffer;
 let pollishBuffer;
+let source;
 
 document.documentElement.classList.replace('no-js', 'js');
 
@@ -172,7 +173,7 @@ function playBuffer(buffer, isSlide1) {
     if (isSlide1) {
         $$slides[0].src = 'images/pollish_open.png';
     }
-    const source = audioCtx.createBufferSource();
+    source = audioCtx.createBufferSource();
     source.buffer = buffer;
     source.connect(audioCtx.destination);
     source.start(0);
@@ -185,6 +186,9 @@ function stopCurrentSound() {
     if (currentSource) {
         try { currentSource.stop(); } catch (e) {}
         currentSource = null;
+    }
+    if (source) {
+        source.onended = () => {};
     }
     $$slides[0].src = 'images/pollish_closed.png';
 }

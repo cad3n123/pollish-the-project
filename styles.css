@@ -93,7 +93,6 @@ body {
     display: flex;
     justify-content: center;
     justify-self: center;
-    margin-bottom: 3rem;
     box-sizing: border-box;
 }
 
