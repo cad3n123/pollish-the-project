@@ -531,16 +531,14 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell #mc_embed_signup .optionalParent div #subscribe-button-background {
-    --transform-padding: 40%;
+    --transform-padding: 50%;
 
     position: absolute;
     height: calc(100% + var(--transform-padding));
     object-fit: contain;
-    left: 0;
-    top: 0;
     z-index: -2;
     box-sizing: unset;
-    transform: translate(0, calc(-0.5 * var(--transform-padding)));
+    padding-bottom: 0.25rem;
 }
 
 #mc_embed_shell #mc_embed_signup .optionalParent div input {
