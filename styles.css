@@ -280,7 +280,7 @@ main {
 }
 
 #curtain {
-    --transition-time: 0.3s;
+    --transition-time: 0.2s;
 
     position: fixed;
     background-color: black;
