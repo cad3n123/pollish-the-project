@@ -598,6 +598,9 @@ footer #social-media-icons a:hover svg {
     #slideshow #square {
         --arrow-padding: 3rem;
     }
+    #slideshow .slide.rareroom {
+        --size: 40%;
+    }
     main {
         padding: 2rem;
         gap: 2rem
