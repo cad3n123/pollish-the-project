@@ -272,7 +272,7 @@ $countrySelect.addEventListener('change', () => {
   }
 });
 $newsletterForm.addEventListener('submit', (event) => {
-  if ($countrySelect.value === '') {
-    event.preventDefault(); // stop the form from submitting
-  }
+//   if ($countrySelect.value === '') {
+    
+//   }
 });

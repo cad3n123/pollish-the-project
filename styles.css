@@ -330,7 +330,7 @@ main {
 
 footer {
     --vertical-spacing: 0.75rem;
-    --grey: rgb(96, 96, 96);
+    --grey: rgb(112, 112, 112);
 
     background-color: var(--back-black);
     display: flex;
