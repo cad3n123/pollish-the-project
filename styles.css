@@ -121,7 +121,7 @@ body {
 
 .arrow {
     --horizontal-padding: 1vw;
-    --distance: calc(0.4 * var(--arrow-padding));
+    --distance: calc(0.2 * var(--arrow-padding));
 
     -webkit-tap-highlight-color: transparent; /* Prevent tap highlight on iOS */
     -webkit-touch-callout: none;
