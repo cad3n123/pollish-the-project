@@ -529,7 +529,7 @@ footer #social-media-icons a:hover svg {
 }
 
 #mc_embed_shell #mc_embed_signup #mailchimp-logo {
-    --size: 6;
+    --size: 6.5; /* slightly larger */
     --width: calc(var(--size) * 0.5rem);
     --height: calc(var(--size) * 0.25rem);
 
@@ -586,7 +586,11 @@ footer #social-media-icons a:hover svg {
         width: 32rem;
     }
     #mc_embed_shell #mc_embed_signup #mailchimp-logo {
-        --size: 8;
+        --size: 8.5; /* slightly larger on mobile */
+    }
+    #mc_embed_shell #mc_embed_signup .optionalParent div input {
+        font-size: 0.65rem;
+        height: 2rem;
     }
     #mc_embed_shell #mc_embed_signup .mc-field-group #mce-COUNTRY {
         padding-left: 1rem;
