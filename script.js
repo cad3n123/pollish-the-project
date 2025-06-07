@@ -198,9 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slides[1]) {
         slides[1].addEventListener('click', playRareroom);
     }
-    setTimeout(() => {
+    // setTimeout(() => {
         document.getElementById('curtain').classList.remove('active');
-    }, 0);
+    // }, 0);
 });
 function setCountryList() {
     fetch("https://restcountries.com/v3.1/all?fields=name")
