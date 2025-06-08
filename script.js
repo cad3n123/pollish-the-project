@@ -160,9 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($$slides[1]) {
         $$slides[1].addEventListener('click', playRareroom);
     }
-    setTimeout(() => {
-        document.getElementById('curtain').classList.remove('active');
-    }, 100);
+    removeCurtainAfterImagesLoad();
 });
 function playBuffer(buffer, isSlide1) {
     if (!buffer) return;
@@ -282,8 +280,18 @@ $countrySelect.addEventListener('change', () => {
     $countryPlaceholder.style.display = 'none';
   }
 });
-$newsletterForm.addEventListener('submit', (event) => {
-//   if ($countrySelect.value === '') {
-    
-//   }
-});
+function removeCurtainAfterImagesLoad() {
+  const $$images = [...document.querySelectorAll("img")];
+
+  const proms=$$images.map($image => {
+    if ($image.complete) {
+      return new Promise(res => res());
+    } else {
+      return new Promise(res=>$image.onload=()=>res());
+    }
+  });
+
+  Promise.all(proms).then(_ => {
+    document.getElementById('curtain').classList.remove('active');
+  });
+}

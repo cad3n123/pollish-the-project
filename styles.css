@@ -301,7 +301,7 @@ main {
 }
 
 #curtain {
-    --transition-time: 0.2s;
+    --transition-time: 0.5s;
 
     position: fixed;
     background-color: black;
