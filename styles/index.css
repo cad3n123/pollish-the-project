@@ -21,6 +21,10 @@ html {
     box-sizing: border-box;
 }
 
+a, button {
+    cursor: pointer;
+}
+
 *, *::before, *::after {
     box-sizing: inherit;
 }
