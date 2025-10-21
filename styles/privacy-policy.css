@@ -95,12 +95,12 @@ html:has(.black-overlay-page.active) {
 
 @media only screen and (max-width: 600px) {
   #privacy-policy-div > div {
-    --margin: 3rem;
+    --margin: 3em;
   }
   #privacy-policy-div h1 {
-    font-size: 1.25rem;
+    font-size: 1.25em;
   }
   #privacy-policy-div p {
-    font-size: 1rem;
+    font-size: 1em;
   }
 }
