@@ -5,7 +5,6 @@ const [$privacyPolicyButton, $privacyPolicyDiv, $privacyPolicyX] = [
 ].map((id) => document.getElementById(id));
 
 $privacyPolicyButton.addEventListener('click', () => {
-  window.scrollTo(0, 0);
   $privacyPolicyDiv.classList.add('active');
 });
 $privacyPolicyX.addEventListener('click', () => {
