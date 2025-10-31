@@ -22,7 +22,8 @@ let source;
 
 document.documentElement.classList.replace('no-js', 'js');
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await checkPassword();
     setCountryList();
 
     const square = document.getElementById('square');
@@ -295,5 +296,29 @@ function removeCurtainAfterImagesLoad() {
 
   Promise.all(proms).then(_ => {
     document.getElementById('curtain').classList.remove('active');
+  });
+}
+async function checkPassword() {
+  return new Promise((resolve, reject) => {
+    const allowedStored = localStorage.getItem('allowed');
+    if (allowedStored !== null) {
+      if (JSON.parse(allowedStored)) {
+        resolve();
+        return;
+      }
+    }
+
+    const correctPassword = 'rareroom';
+    while (true) {
+      const enteredPassword = prompt('Enter password:').toLowerCase().trim();
+
+      if (enteredPassword === correctPassword) {
+        localStorage.setItem('allowed', JSON.stringify(true));
+        resolve();
+        return;
+      } else {
+        alert('Access Denied. Incorrect password.');
+      }
+    }
   });
 }
