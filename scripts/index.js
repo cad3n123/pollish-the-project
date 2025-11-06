@@ -1,5 +1,6 @@
 // Elements
-const $$slides = Array.from(document.querySelectorAll('img.slide')); 
+const $main = document.querySelector('main');
+const $$slides = Array.from(document.querySelectorAll('img.slide'));
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
@@ -19,229 +20,237 @@ let timeout;
 let clickBuffer;
 let pollishBuffer;
 let source;
+let linkData = [];
 
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await checkPassword();
-    setCountryList();
+  await checkPassword();
+  setCountryList();
 
-    const square = document.getElementById('square');
-    index = $$slides.findIndex(slide => slide.classList.contains('active'));
+  (async () => {
+    await fetchLinkData();
+    loadYoutubePreviews();
+  })();
 
-    gainNode.connect(audioCtx.destination);
-    gainNode.gain.value = volume;
+  const square = document.getElementById('square');
+  index = $$slides.findIndex((slide) => slide.classList.contains('active'));
 
-    fetch('./audios/slide_click.m4a')
-        .then(resp => resp.arrayBuffer())
-        .then(data => audioCtx.decodeAudioData(data))
-        .then(buffer => {
-            clickBuffer = buffer;
-        });
+  gainNode.connect(audioCtx.destination);
+  gainNode.gain.value = volume;
 
-    fetch('./audios/pollish.m4a')
-        .then(resp => resp.arrayBuffer())
-        .then(data => audioCtx.decodeAudioData(data))
-        .then(buffer => {
-            pollishBuffer = buffer;
-        });
+  fetch('./audios/slide_click.m4a')
+    .then((resp) => resp.arrayBuffer())
+    .then((data) => audioCtx.decodeAudioData(data))
+    .then((buffer) => {
+      clickBuffer = buffer;
+    });
 
-    function playPollish() {
-        playBuffer(pollishBuffer, true);
+  fetch('./audios/pollish.m4a')
+    .then((resp) => resp.arrayBuffer())
+    .then((data) => audioCtx.decodeAudioData(data))
+    .then((buffer) => {
+      pollishBuffer = buffer;
+    });
+
+  function playPollish() {
+    playBuffer(pollishBuffer, true);
+  }
+
+  /**
+   *
+   * @param {string} morse
+   * @returns {Array[Array[number]]}
+   */
+  function morseTiming(morse) {
+    const dot = 120;
+    const dash = 240;
+    const letterGap = 120;
+
+    morse += ' ';
+    let times = [];
+    for (let i = 0; i < morse.length - 1; i++) {
+      let char = morse[i];
+      let nextChar = morse[i + 1];
+      let length1 = char == '.' ? dot / 2 : dash / 2;
+      let length2 = length1 + (nextChar == ' ' ? letterGap : 0);
+      times.push([length1, length2]);
+
+      if (nextChar == ' ') {
+        i++;
+      }
     }
-    
-    /**
-     *
-     * @param {string} morse
-     * @returns {Array[Array[number]]}
-     */
-    function morseTiming(morse) {
-        const dot = 120;
-        const dash = 240;
-        const letterGap = 120;
 
-        morse += " ";
-        let times = [];
-        for (let i = 0; i < morse.length - 1; i++) {
-            let char = morse[i];
-            let nextChar = morse[i + 1];
-            let length1 = char == "." ? dot / 2 : dash / 2;
-            let length2 = length1 + (nextChar == " " ? letterGap : 0);
-            times.push([length1, length2]);
+    return times;
+  }
 
-            if (nextChar == " ") {
-            i++;
-            }
+  async function flashMorseCode(times) {
+    let i = 0;
+    let j = 0;
+    const startDate = Date.now();
+    let offset = 0;
+
+    square.classList.add('translucent');
+
+    flashingInterval = setInterval(() => {
+      const currentDate = Date.now();
+
+      while (currentDate - (startDate + offset) > times[i][j]) {
+        offset += times[i][j];
+        if (j == 0) {
+          square.classList.remove('translucent');
+        } else if (i + 1 >= times.length) {
+          square.classList.remove('translucent');
+          clearInterval(flashingInterval);
+          flashingInterval = null;
+          break;
+        } else {
+          square.classList.add('translucent');
+          i++;
         }
+        j = 1 - j;
+      }
+    }, 1);
+  }
 
-        return times;
-    }
+  async function playRareroom() {
+    const MORSE = '.-. .- .-. . .-. --- --- --';
 
-    async function flashMorseCode(times) {
-        let i = 0;
-        let j = 0;
-        const startDate = Date.now();
-        let offset = 0;
-
-        square.classList.add('translucent');
-
-        flashingInterval = setInterval(() => {
-            const currentDate = Date.now();
-
-            while (currentDate - (startDate + offset) > times[i][j]) {
-                offset += times[i][j];
-                if (j == 0) {
-                    square.classList.remove('translucent');;
-                } else if (i + 1 >= times.length) {
-                    square.classList.remove('translucent');;
-                    clearInterval(flashingInterval);
-                    flashingInterval = null;
-                    break;
-                } else {
-                    square.classList.add('translucent');;
-                    i++;
-                }
-                j = 1 - j;
-            }
-        }, 1);
-    }
-
-    async function playRareroom() {
-        const MORSE = ".-. .- .-. . .-. --- --- --";
-
-        if (audioCtx.state === "suspended") {
-            await audioCtx.resume();
-        }
-
-        square.classList.remove('translucent');
-        if (flashingInterval) {
-            clearInterval(flashingInterval);
-            flashingInterval = null;
-        }
-
-        stopCurrentSound();
-
-        // Fetch and decode the audio file
-        const response = await fetch("/audios/RAREROOM MORSE.m4a");
-        const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-
-         // Create audio source and connect to destination
-        const source = audioCtx.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(gainNode);
-        currentSource = source;
-
-        // Schedule playback a short moment into the future
-        const startTime = audioCtx.currentTime + 0.3; // small delay for sync
-        source.start(startTime);
-
-        // Schedule the flashing to start in sync
-        const delayMs = (startTime - audioCtx.currentTime) * 1000;
-        setTimeout(() => {
-            square.classList.remove('translucent');
-            if (flashingInterval) {
-                clearInterval(flashingInterval);
-                flashingInterval = null;
-            }
-            flashMorseCode(morseTiming(MORSE));
-        }, delayMs);
-
-        currentAudioBufferSource = source;
-    }
-
-    document.getElementById('next').addEventListener('click', incrementSlides);
-
-    document.getElementById('prev').addEventListener('click', decrementSlides);
-  
-    // Play pollish sound when the first slide image is clicked
-    if ($$slides[0]) {
-        $$slides[0].addEventListener('click', playPollish);
-    }
-    if ($$slides[1]) {
-        $$slides[1].addEventListener('click', playRareroom);
-    }
-    removeCurtainAfterImagesLoad();
-});
-function playBuffer(buffer, isSlide1) {
-    if (!buffer) return;
     if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      await audioCtx.resume();
     }
-    stopCurrentSound();
-    if (isSlide1) {
-        $$slides[0].src = 'images/pollish_open.png';
-    }
-    source = audioCtx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioCtx.destination);
-    source.start(0);
-    currentSource = source;
-    source.onended = () => {
-        $$slides[0].src = 'images/pollish_closed.png';
-    }
-}
-function stopCurrentSound() {
-    if (currentSource) {
-        try { currentSource.stop(); } catch (e) {}
-        currentSource = null;
-    }
-    if (source) {
-        source.onended = () => {};
-    }
-    $$slides[0].src = 'images/pollish_closed.png';
-}
-function showSlide(i) {
-    stopCurrentSound();
+
     square.classList.remove('translucent');
     if (flashingInterval) {
+      clearInterval(flashingInterval);
+      flashingInterval = null;
+    }
+
+    stopCurrentSound();
+
+    // Fetch and decode the audio file
+    const response = await fetch('/audios/RAREROOM MORSE.m4a');
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+    // Create audio source and connect to destination
+    const source = audioCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(gainNode);
+    currentSource = source;
+
+    // Schedule playback a short moment into the future
+    const startTime = audioCtx.currentTime + 0.3; // small delay for sync
+    source.start(startTime);
+
+    // Schedule the flashing to start in sync
+    const delayMs = (startTime - audioCtx.currentTime) * 1000;
+    setTimeout(() => {
+      square.classList.remove('translucent');
+      if (flashingInterval) {
         clearInterval(flashingInterval);
         flashingInterval = null;
-    }
-    $$slides.forEach(slide => slide.classList.remove('active'));
-    clearTimeout(timeout);
-    square.classList.add('translucent');
-    timeout = setTimeout(() => {
-        $$slides[i].classList.add('active');
-        square.classList.remove('translucent');
-        playClick();
-    }, 150);
+      }
+      flashMorseCode(morseTiming(MORSE));
+    }, delayMs);
+
+    currentAudioBufferSource = source;
+  }
+
+  document.getElementById('next').addEventListener('click', incrementSlides);
+
+  document.getElementById('prev').addEventListener('click', decrementSlides);
+
+  // Play pollish sound when the first slide image is clicked
+  if ($$slides[0]) {
+    $$slides[0].addEventListener('click', playPollish);
+  }
+  if ($$slides[1]) {
+    $$slides[1].addEventListener('click', playRareroom);
+  }
+  removeCurtainAfterImagesLoad();
+});
+function playBuffer(buffer, isSlide1) {
+  if (!buffer) return;
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  stopCurrentSound();
+  if (isSlide1) {
+    $$slides[0].src = 'images/pollish_open.png';
+  }
+  source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
+  currentSource = source;
+  source.onended = () => {
+    $$slides[0].src = 'images/pollish_closed.png';
+  };
+}
+function stopCurrentSound() {
+  if (currentSource) {
+    try {
+      currentSource.stop();
+    } catch (e) {}
+    currentSource = null;
+  }
+  if (source) {
+    source.onended = () => {};
+  }
+  $$slides[0].src = 'images/pollish_closed.png';
+}
+function showSlide(i) {
+  stopCurrentSound();
+  square.classList.remove('translucent');
+  if (flashingInterval) {
+    clearInterval(flashingInterval);
+    flashingInterval = null;
+  }
+  $$slides.forEach((slide) => slide.classList.remove('active'));
+  clearTimeout(timeout);
+  square.classList.add('translucent');
+  timeout = setTimeout(() => {
+    $$slides[i].classList.add('active');
+    square.classList.remove('translucent');
+    playClick();
+  }, 150);
 }
 function playClick() {
-    playBuffer(clickBuffer, false);
+  playBuffer(clickBuffer, false);
 }
 function incrementSlides() {
-    index = (index + 1) % $$slides.length;
-    showSlide(index);
+  index = (index + 1) % $$slides.length;
+  showSlide(index);
 }
 function decrementSlides() {
-    index = (index - 1 + $$slides.length) % $$slides.length;
-    showSlide(index);
+  index = (index - 1 + $$slides.length) % $$slides.length;
+  showSlide(index);
 }
 function setCountryList() {
-    fetch("https://restcountries.com/v3.1/all?fields=name")
-        .then((res) => res.json())
-        .then((data) => {
-            const select = document.querySelector("select[name='COUNTRY']");
-            data
-            .sort((a, b) => a.name.common.localeCompare(b.name.common))
-            .forEach((country) => {
-                const opt = document.createElement("option");
-                opt.value = country.name.common;
-                opt.textContent = country.name.common;
-                select.appendChild(opt);
-            });
+  fetch('https://restcountries.com/v3.1/all?fields=name')
+    .then((res) => res.json())
+    .then((data) => {
+      const select = document.querySelector("select[name='COUNTRY']");
+      data
+        .sort((a, b) => a.name.common.localeCompare(b.name.common))
+        .forEach((country) => {
+          const opt = document.createElement('option');
+          opt.value = country.name.common;
+          opt.textContent = country.name.common;
+          select.appendChild(opt);
         });
+    });
 }
 function openNewsletterForm() {
-    document.getElementById('shadow').classList.add('active');
-    document.getElementById('mc_embed_shell').classList.add('active');
-    document.documentElement.style.overflow = 'hidden';
+  document.getElementById('shadow').classList.add('active');
+  document.getElementById('mc_embed_shell').classList.add('active');
+  document.documentElement.style.overflow = 'hidden';
 }
 function closeNewsletterForm() {
-    document.getElementById('shadow').classList.remove('active');
-    document.getElementById('mc_embed_shell').classList.remove('active');
-    document.documentElement.style.overflow = 'auto';
+  document.getElementById('shadow').classList.remove('active');
+  document.getElementById('mc_embed_shell').classList.remove('active');
+  document.documentElement.style.overflow = 'auto';
 }
 document.getElementById('logo').addEventListener('click', () => {
   const start = window.scrollY;
@@ -260,7 +269,8 @@ document.getElementById('logo').addEventListener('click', () => {
 });
 
 document.getElementById('watch-btn').addEventListener('click', () => {
-  window.location.href = 'https://youtube.com/@logangladden?si=z2cRRmd4J6Z_atsu';
+  window.location.href =
+    'https://youtube.com/@logangladden?si=z2cRRmd4J6Z_atsu';
 });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') {
@@ -284,17 +294,17 @@ $countrySelect.addEventListener('change', () => {
   }
 });
 function removeCurtainAfterImagesLoad() {
-  const $$images = [...document.querySelectorAll("img")];
+  const $$images = [...document.querySelectorAll('img')];
 
-  const proms=$$images.map($image => {
+  const proms = $$images.map(($image) => {
     if ($image.complete) {
-      return new Promise(res => res());
+      return new Promise((res) => res());
     } else {
-      return new Promise(res=>$image.onload=()=>res());
+      return new Promise((res) => ($image.onload = () => res()));
     }
   });
 
-  Promise.all(proms).then(_ => {
+  Promise.all(proms).then((_) => {
     document.getElementById('curtain').classList.remove('active');
   });
 }
@@ -321,4 +331,34 @@ async function checkPassword() {
       }
     }
   });
+}
+async function fetchLinkData() {
+  const S3_URL =
+    'https://rareroom-bucket.s3.us-east-2.amazonaws.com/pollish/data.json';
+
+  try {
+    const response = await fetch(S3_URL);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    linkData = data;
+  } catch (err) {
+    console.error('Failed to fetch data:', err);
+  }
+}
+function loadYoutubePreviews() {
+  const $$youtubePreviews = linkData['youtube-links'].map((link) => {
+    const $videoContainer = document.createElement('div');
+    $videoContainer.classList.add('video-container');
+
+    const $iframe = document.createElement('iframe');
+    $iframe.src = link;
+    $iframe.allowFullscreen = true;
+
+    [$iframe].forEach(($) => $videoContainer.appendChild($));
+
+    return $videoContainer;
+  });
+  $$youtubePreviews.forEach(($) => $main.appendChild($));
 }
