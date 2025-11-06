@@ -10,10 +10,6 @@ const [$listenBtn, $watchBtn] = ['listen', 'watch'].map((name) =>
   document.getElementById(`${name}-btn`)
 );
 
-$listenBtn.onclick = () => {
-  window.open('https://google.com', '_blank');
-};
-
 // Constant Vars
 const volume = 0.35;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -38,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   (async () => {
     await fetchLinkData();
     loadYoutubePreviews();
-    setNabBtnClickEvents();
+    setNavBtnClickEvents();
   })();
 
   const square = document.getElementById('square');
@@ -366,7 +362,7 @@ function loadYoutubePreviews() {
   });
   $$youtubePreviews.forEach(($) => $main.appendChild($));
 }
-function setNabBtnClickEvents() {
+function setNavBtnClickEvents() {
   [
     {
       $btn: $watchBtn,
@@ -377,8 +373,8 @@ function setNabBtnClickEvents() {
       link: linkData.listen,
     },
   ].forEach(({ $btn, link }) => {
-    $btn.addEventListener('click', () => {
-      window.open(link, '_blank');
-    });
+    $btn.href = link;
+    $btn.target = '_blank';
+    $btn.rel = 'noopener noreferrer';
   });
 }
