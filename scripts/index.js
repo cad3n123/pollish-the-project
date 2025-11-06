@@ -6,6 +6,9 @@ const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
 const $countryPlaceholder = document.getElementById('country-placeholder');
 const $newsletterForm = document.getElementById('mc-embedded-subscribe-form');
+const [$socialMediaIcons] = ['social-media-icons'].map((id) =>
+  document.getElementById(id)
+);
 const [$listenBtn, $watchBtn] = ['listen', 'watch'].map((name) =>
   document.getElementById(`${name}-btn`)
 );
@@ -34,7 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   (async () => {
     await fetchLinkData();
     loadYoutubePreviews();
-    setNavBtnClickEvents();
+    setNavLinks();
+    setSocialLinks();
   })();
 
   const square = document.getElementById('square');
@@ -362,19 +366,45 @@ function loadYoutubePreviews() {
   });
   $$youtubePreviews.forEach(($) => $main.appendChild($));
 }
-function setNavBtnClickEvents() {
+function setNavLinks() {
   [
     {
-      $btn: $watchBtn,
+      $a: $watchBtn,
       link: linkData.watch,
     },
     {
-      $btn: $listenBtn,
+      $a: $listenBtn,
       link: linkData.listen,
     },
-  ].forEach(({ $btn, link }) => {
-    $btn.href = link;
-    $btn.target = '_blank';
-    $btn.rel = 'noopener noreferrer';
+  ].forEach(({ $a, link }) => {
+    $a.href = link;
+    $a.target = '_blank';
+    $a.rel = 'noopener noreferrer';
+  });
+}
+function setSocialLinks() {
+  const $$socials = [...$socialMediaIcons.querySelectorAll('a')];
+
+  const socialLinks = linkData['social-links'];
+  if (socialLinks === undefined) {
+    return;
+  }
+
+  for (const social in socialLinks) {
+    const $social = $$socials.find(($social) =>
+      $social.classList.contains(social)
+    );
+    const href = socialLinks[social];
+
+    if (social === undefined || href === '' || href === undefined) {
+      continue;
+    }
+
+    $social.href = href;
+  }
+  $$socials.forEach(($social) => {
+    if ($social.href === '' || $social.href === undefined) {
+      $social.style.display = 'none';
+    }
   });
 }
