@@ -6,6 +6,13 @@ const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
 const $countryPlaceholder = document.getElementById('country-placeholder');
 const $newsletterForm = document.getElementById('mc-embedded-subscribe-form');
+const [$listenBtn, $watchBtn] = ['listen', 'watch'].map((name) =>
+  document.getElementById(`${name}-btn`)
+);
+
+$listenBtn.onclick = () => {
+  window.open('https://google.com', '_blank');
+};
 
 // Constant Vars
 const volume = 0.35;
@@ -31,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   (async () => {
     await fetchLinkData();
     loadYoutubePreviews();
+    setNabBtnClickEvents();
   })();
 
   const square = document.getElementById('square');
@@ -268,10 +276,6 @@ document.getElementById('logo').addEventListener('click', () => {
   requestAnimationFrame(scrollStep);
 });
 
-document.getElementById('watch-btn').addEventListener('click', () => {
-  window.location.href =
-    'https://youtube.com/@logangladden?si=z2cRRmd4J6Z_atsu';
-});
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') {
     incrementSlides();
@@ -361,4 +365,20 @@ function loadYoutubePreviews() {
     return $videoContainer;
   });
   $$youtubePreviews.forEach(($) => $main.appendChild($));
+}
+function setNabBtnClickEvents() {
+  [
+    {
+      $btn: $watchBtn,
+      link: linkData.watch,
+    },
+    {
+      $btn: $listenBtn,
+      link: linkData.listen,
+    },
+  ].forEach(({ $btn, link }) => {
+    $btn.addEventListener('click', () => {
+      window.open(link, '_blank');
+    });
+  });
 }
