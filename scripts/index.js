@@ -31,6 +31,7 @@ let linkData = [];
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', async () => {
+  await checkPassword();
   setCountryList();
 
   (async () => {
@@ -199,11 +200,11 @@ function stopCurrentSound() {
   if (currentSource) {
     try {
       currentSource.stop();
-    } catch (e) { }
+    } catch (e) {}
     currentSource = null;
   }
   if (source) {
-    source.onended = () => { };
+    source.onended = () => {};
   }
   $$slides[0].src = 'images/pollish_closed.png';
 }
@@ -311,7 +312,30 @@ function removeCurtainAfterImagesLoad() {
     document.getElementById('curtain').classList.remove('active');
   });
 }
+async function checkPassword() {
+  return new Promise((resolve, reject) => {
+    const allowedStored = localStorage.getItem('allowed');
+    if (allowedStored !== null) {
+      if (JSON.parse(allowedStored)) {
+        resolve();
+        return;
+      }
+    }
 
+    const correctPassword = 'rareroom';
+    while (true) {
+      const enteredPassword = prompt('Enter password:').toLowerCase().trim();
+
+      if (enteredPassword === correctPassword) {
+        localStorage.setItem('allowed', JSON.stringify(true));
+        resolve();
+        return;
+      } else {
+        alert('Access Denied. Incorrect password.');
+      }
+    }
+  });
+}
 async function fetchLinkData() {
   const S3_URL =
     'https://rareroom-bucket.s3.us-east-2.amazonaws.com/pollish/data.json';
