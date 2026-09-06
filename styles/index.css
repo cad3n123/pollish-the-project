@@ -594,6 +594,11 @@ footer #social-media-icons a:hover svg {
     #slideshow #square {
         --arrow-padding: 3rem;
     }
+    /* The mirrored left arrow reads as sitting closer in than its twin once the
+       square narrows, so nudge it a little further out. */
+    #prev {
+        left: calc(var(--distance) - 1rem);
+    }
     #slideshow .slide.rareroom {
         --size: 40%;
     }

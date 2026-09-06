@@ -66,6 +66,20 @@
   transition: opacity 250ms, visibility 250ms;
 }
 
+/* iOS puts the page under the translucent status bar / dynamic island, and a
+   fixed element's top:0 sits below that strip — so the site showed through
+   above the overlay. Bleed the black a screen's worth past every edge. */
+.black-overlay-page::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -100vh;
+  bottom: -100vh;
+  background-color: black;
+  z-index: -1;
+}
+
 html:has(.black-overlay-page.active) {
   overflow-y: hidden;
 }
