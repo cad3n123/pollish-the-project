@@ -599,6 +599,11 @@ footer #social-media-icons a:hover svg {
     #prev {
         left: calc(var(--distance) - 1rem);
     }
+    /* Give the right arrow some of that same breathing room, but less — it
+       already sits a touch further out than its mirrored twin. */
+    #next {
+        right: calc(var(--distance) - 0.5rem);
+    }
     #slideshow .slide.rareroom {
         --size: 40%;
     }
