@@ -1,0 +1,23 @@
+/* ============================================================
+ * TEMPORARY — see scripts/temp-overrides.js. Delete this file and
+ * its <link> in index.html to restore the real YouTube embeds.
+ * ============================================================ */
+
+/* Same 16:9 footprint as .video-container, but drawn as an empty
+   outlined box with "soon" centered in it. */
+.video-placeholder {
+    padding-bottom: 0;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Matches the footer's "RAREROOM" type. */
+    font-family: Source_Code_Pro;
+    letter-spacing: 3px;
+    font-weight: 400;
+    color: var(--secondary);
+    font-size: 1rem;
+}

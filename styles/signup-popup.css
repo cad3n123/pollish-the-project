@@ -1,0 +1,238 @@
+/* =============================================================================
+   SIGNUP POPUP — the panel that rises into the bottom half of the screen and
+   invites a subscribe (scripts/signup-popup.js).
+
+   A deliberate copy of the same panel on the RAREROOM site, so the three sites
+   prompt in one voice: black slab, white ink, Source Code Pro. The values below
+   are RAREROOM's design tokens resolved to literals, since this project has no
+   token layer to read them from. Keep the two in step if either changes.
+
+   This is ADDITIONAL to the site's own subscribe box, which is untouched.
+   ============================================================================= */
+/* These sites have no global border-box reset (RAREROOM does), so the email
+   input's padding was added ON TOP of its width and pushed it out under the
+   SUBSCRIBE chip. Scoped to the panel so nothing else on the page shifts. */
+.signup-pop,
+.signup-pop *,
+.signup-pop *::before,
+.signup-pop *::after {
+  box-sizing: border-box;
+}
+
+.signup-pop {
+  --sp-ink: #151110;
+  --sp-paper: #ffffff;
+  --sp-muted: rgba(236, 230, 219, 0.55);
+  --sp-line: rgba(236, 230, 219, 0.22);
+  --sp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: fixed;
+  /* Bottom half of the screen: pinned to the bottom edge, never climbing past
+     the halfway line however tall the contents get. */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 50dvh;
+  overflow-y: auto;
+  /* Over the page, but under everything this site puts on top of it — the
+     shadow (11), the newsletter modal (20), the loading curtain (100) and the
+     privacy sheet (1000000). This number is site-specific: each of the three
+     sites has its own stacking scale, so don't copy it between them without
+     checking what it has to sit beneath. */
+  z-index: 10;
+  background: var(--sp-ink);
+  color: var(--sp-paper);
+  font-family: Source_Code_Pro, ui-monospace, Menlo, monospace;
+  padding: clamp(1.5rem, 4vw, 2.4rem) clamp(1.1rem, 5vw, 4.5rem) clamp(1.7rem, 4vw, 2.6rem);
+  /* Hidden state: slides up from under its own edge. visibility keeps the form
+     out of the tab order until it has arrived. */
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.55s var(--sp-ease), opacity 0.4s var(--sp-ease), visibility 0.55s;
+}
+
+.signup-pop.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.signup-pop__title {
+  /* lowercase on purpose — the line reads as a quiet aside, not a shout */
+  font-size: clamp(0.82rem, 2.4vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin: 0 auto 1.1rem;
+  /* keeps the centred line clear of the close button in the corner; it wraps
+     here rather than running under the X on a narrow phone */
+  padding-inline: 2.4rem;
+}
+
+.signup-pop__form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  /* anchor for the absolutely-positioned inline result, so the message never
+     adds a row and grows the panel */
+  position: relative;
+}
+
+.signup-pop__field {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-pop__input {
+  font-family: inherit;
+  font-size: 0.66rem;
+  width: 100%;
+  color: var(--sp-paper);
+  background: transparent;
+  border: 1px solid var(--sp-line);
+  border-radius: 3px;
+  /* padding in em so the box follows the type down rather than leaving smaller
+     text floating in an oversized field */
+  padding: 0.95em 1.1em;
+  transition: border-color 0.2s var(--sp-ease);
+}
+
+.signup-pop__input::placeholder {
+  color: var(--sp-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.12em;
+  font-size: inherit;
+}
+
+.signup-pop__input:focus {
+  outline: none;
+  border-color: var(--sp-paper);
+}
+
+/* The chip. RAREROOM's is stamped brand art (a PNG); that artwork is specific to
+   that label, so this is the same chip set in type instead. */
+.signup-pop__submit {
+  align-self: center;
+  font-family: inherit;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--sp-paper);
+  background: transparent;
+  border: 1px solid var(--sp-line);
+  border-radius: 2px;
+  padding: 0.85em 1.1em;
+  cursor: pointer;
+  transition: background 0.2s var(--sp-ease), color 0.2s var(--sp-ease),
+    border-color 0.2s var(--sp-ease);
+}
+
+/* Gated on a real pointer: on touch the fill latches after a tap and the chip is
+   left stuck inverted until you press somewhere else. */
+@media (hover: hover) {
+  .signup-pop__submit:hover {
+    background: var(--sp-paper);
+    color: var(--sp-ink);
+    border-color: var(--sp-paper);
+  }
+}
+
+.signup-pop__consent {
+  flex-basis: 100%;
+  width: 100%;
+  margin: 0.5rem 0 0;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  color: var(--sp-muted);
+}
+
+.signup-pop__consent button {
+  font: inherit;
+  color: var(--sp-paper);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+/* Inline result, positioned just below the whole form so it lands under the
+   consent line and never grows the panel. */
+.signup-pop__msg {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0.2rem;
+  right: 0.2rem;
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--sp-muted);
+}
+
+.signup-pop__msg:empty {
+  display: none;
+}
+
+.signup-pop__msg.is-ok {
+  color: #9fd8a4;
+}
+
+.signup-pop__msg.is-err {
+  color: #e7867d;
+}
+
+.signup-pop__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s var(--sp-ease);
+}
+
+.signup-pop__close img {
+  width: 21px;
+  height: auto;
+  /* the site's x.png is dark art — invert it to read on the black slab */
+  filter: invert(1);
+}
+
+@media (hover: hover) {
+  .signup-pop__close:hover {
+    opacity: 1;
+  }
+}
+
+/* Phones: a form that already fills the panel needs more bottom room (and to
+   clear the home indicator), and the fine print pulls in a touch. */
+@media (max-width: 760px) {
+  .signup-pop {
+    max-height: 60dvh;
+    padding-bottom: calc(1.7rem + env(safe-area-inset-bottom));
+  }
+
+  .signup-pop__consent {
+    zoom: 0.95;
+  }
+}
+
+/* The panel is motion — respect a request for none and let it just appear. */
+@media (prefers-reduced-motion: reduce) {
+  .signup-pop {
+    transform: none;
+    transition: opacity 0.001ms, visibility 0.001ms;
+  }
+}

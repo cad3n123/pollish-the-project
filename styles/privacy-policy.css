@@ -87,10 +87,13 @@ html:has(.black-overlay-page.active) {
 .black-overlay-page .x img {
   width: 2em;
   object-fit: cover;
+  /* x.png is a black stamp — invert it to read on the black overlay */
+  filter: invert(1);
 }
 
+/* Backs off the full inversion so the x dims toward grey on hover. */
 .black-overlay-page .x img:hover {
-  filter: invert(20%);
+  filter: invert(80%);
 }
 
 @media only screen and (max-width: 600px) {

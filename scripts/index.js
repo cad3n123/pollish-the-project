@@ -31,7 +31,6 @@ let linkData = [];
 document.documentElement.classList.replace('no-js', 'js');
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await checkPassword();
   setCountryList();
 
   (async () => {
@@ -200,11 +199,11 @@ function stopCurrentSound() {
   if (currentSource) {
     try {
       currentSource.stop();
-    } catch (e) {}
+    } catch (e) { }
     currentSource = null;
   }
   if (source) {
-    source.onended = () => {};
+    source.onended = () => { };
   }
   $$slides[0].src = 'images/pollish_closed.png';
 }
@@ -235,20 +234,92 @@ function decrementSlides() {
   index = (index - 1 + $$slides.length) % $$slides.length;
   showSlide(index);
 }
+/* ISO 3166-1, already in alphabetical order.
+
+   This list used to be fetched from restcountries.com, which no longer works
+   from a browser. Two separate reasons, either one fatal: v3.1 is deprecated
+   and now answers every request with a "please migrate" error, and the
+   endpoint 301s to a second host whose redirect response carries no CORS
+   header, so the request is blocked before it even arrives. The dropdown was
+   left holding only the three countries hard-coded in the markup, and nothing
+   said so — the fetch failed silently.
+
+   Kept here instead: no third-party call to go stale, and the options are in
+   the DOM on the first frame. */
+const COUNTRIES = [
+  'Afghanistan', 'Åland Islands', 'Albania', 'Algeria', 'American Samoa',
+  'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda',
+  'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan',
+  'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium',
+  'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia',
+  'Bonaire, Sint Eustatius and Saba', 'Bosnia and Herzegovina', 'Botswana',
+  'Bouvet Island', 'Brazil', 'British Indian Ocean Territory',
+  'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cabo Verde',
+  'Cambodia', 'Cameroon', 'Canada', 'Cayman Islands',
+  'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island',
+  'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo',
+  'Congo, The Democratic Republic of the', 'Cook Islands', 'Costa Rica',
+  'Côte d\'Ivoire', 'Croatia', 'Cuba', 'Curaçao', 'Cyprus', 'Czechia',
+  'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt',
+  'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini',
+  'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji',
+  'Finland', 'France', 'French Guiana', 'French Polynesia',
+  'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany',
+  'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe',
+  'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana',
+  'Haiti', 'Heard Island and McDonald Islands',
+  'Holy See (Vatican City State)', 'Honduras', 'Hong Kong', 'Hungary',
+  'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man',
+  'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan',
+  'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon',
+  'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg',
+  'Macao', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta',
+  'Marshall Islands', 'Martinique', 'Mauritania', 'Mauritius', 'Mayotte',
+  'Mexico', 'Micronesia, Federated States of', 'Moldova', 'Monaco',
+  'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Myanmar',
+  'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Caledonia', 'New Zealand',
+  'Nicaragua', 'Niger', 'Nigeria', 'Niue', 'Norfolk Island', 'North Korea',
+  'North Macedonia', 'Northern Mariana Islands', 'Norway', 'Oman', 'Pakistan',
+  'Palau', 'Palestine, State of', 'Panama', 'Papua New Guinea', 'Paraguay',
+  'Peru', 'Philippines', 'Pitcairn', 'Poland', 'Portugal', 'Puerto Rico',
+  'Qatar', 'Réunion', 'Romania', 'Russian Federation', 'Rwanda',
+  'Saint Barthélemy', 'Saint Helena, Ascension and Tristan da Cunha',
+  'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Martin (French part)',
+  'Saint Pierre and Miquelon', 'Saint Vincent and the Grenadines', 'Samoa',
+  'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia',
+  'Seychelles', 'Sierra Leone', 'Singapore', 'Sint Maarten (Dutch part)',
+  'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa',
+  'South Georgia and the South Sandwich Islands', 'South Korea',
+  'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
+  'Svalbard and Jan Mayen', 'Sweden', 'Switzerland', 'Syria', 'Taiwan',
+  'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tokelau',
+  'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Türkiye', 'Turkmenistan',
+  'Turks and Caicos Islands', 'Tuvalu', 'Uganda', 'Ukraine',
+  'United Arab Emirates', 'United Kingdom', 'United States',
+  'United States Minor Outlying Islands', 'Uruguay', 'Uzbekistan', 'Vanuatu',
+  'Venezuela', 'Vietnam', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+  'Wallis and Futuna', 'Western Sahara', 'Yemen', 'Zambia', 'Zimbabwe',
+];
+
 function setCountryList() {
-  fetch('https://restcountries.com/v3.1/all?fields=name')
-    .then((res) => res.json())
-    .then((data) => {
-      const select = document.querySelector("select[name='COUNTRY']");
-      data
-        .sort((a, b) => a.name.common.localeCompare(b.name.common))
-        .forEach((country) => {
-          const opt = document.createElement('option');
-          opt.value = country.name.common;
-          opt.textContent = country.name.common;
-          select.appendChild(opt);
-        });
-    });
+  const select = document.querySelector("select[name='COUNTRY']");
+  if (!select) return;
+
+  /* The markup ships United States so the field still works if this never
+     runs. It comes out here so the full list doesn't name it twice. The empty
+     "select your country" option has no value and stays. */
+  [...select.querySelectorAll('option')]
+    .filter((option) => option.value)
+    .forEach((option) => option.remove());
+
+  const fragment = document.createDocumentFragment();
+  COUNTRIES.forEach((name) => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    fragment.appendChild(option);
+  });
+  select.appendChild(fragment);
 }
 function openNewsletterForm() {
   document.getElementById('shadow').classList.add('active');
@@ -312,36 +383,12 @@ function removeCurtainAfterImagesLoad() {
     document.getElementById('curtain').classList.remove('active');
   });
 }
-async function checkPassword() {
-  return new Promise((resolve, reject) => {
-    const allowedStored = localStorage.getItem('allowed');
-    if (allowedStored !== null) {
-      if (JSON.parse(allowedStored)) {
-        resolve();
-        return;
-      }
-    }
-
-    const correctPassword = 'rareroom';
-    while (true) {
-      const enteredPassword = prompt('Enter password:').toLowerCase().trim();
-
-      if (enteredPassword === correctPassword) {
-        localStorage.setItem('allowed', JSON.stringify(true));
-        resolve();
-        return;
-      } else {
-        alert('Access Denied. Incorrect password.');
-      }
-    }
-  });
-}
 async function fetchLinkData() {
   const S3_URL =
     'https://rareroom-bucket.s3.us-east-2.amazonaws.com/pollish/data.json';
 
   try {
-    const response = await fetch(S3_URL);
+    const response = await fetch(S3_URL, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -351,20 +398,29 @@ async function fetchLinkData() {
     console.error('Failed to fetch data:', err);
   }
 }
+/* The page always reserves this many video slots, even when the bucket data
+   carries fewer links (or drops the youtube-links key altogether) — a slot
+   with no link behind it renders as an empty container rather than
+   collapsing the section. */
+const MIN_YOUTUBE_PREVIEWS = 2;
+
 function loadYoutubePreviews() {
-  const $$youtubePreviews = linkData['youtube-links'].map((link) => {
+  const links = linkData['youtube-links'] || [];
+  const count = Math.max(links.length, MIN_YOUTUBE_PREVIEWS);
+
+  for (let i = 0; i < count; i++) {
     const $videoContainer = document.createElement('div');
     $videoContainer.classList.add('video-container');
 
-    const $iframe = document.createElement('iframe');
-    $iframe.src = link;
-    $iframe.allowFullscreen = true;
+    if (links[i]) {
+      const $iframe = document.createElement('iframe');
+      $iframe.src = links[i];
+      $iframe.allowFullscreen = true;
+      $videoContainer.appendChild($iframe);
+    }
 
-    [$iframe].forEach(($) => $videoContainer.appendChild($));
-
-    return $videoContainer;
-  });
-  $$youtubePreviews.forEach(($) => $main.appendChild($));
+    $main.appendChild($videoContainer);
+  }
 }
 function setNavLinks() {
   [

@@ -105,7 +105,7 @@ body {
     opacity: 0.5;
 }
 
-#slideshow #square img {
+#slideshow #square > img {
     max-width: 100%;
     object-fit: contain;
     padding: 0 var(--arrow-padding);
@@ -162,6 +162,22 @@ body {
     font-size: 3rem;
     padding: 0.5rem calc(3 * var(--horizontal-padding));
     cursor: pointer;
+}
+
+/* Stamped arrow art copied from the Rare Room site's studio carousel — the
+   source PNGs are black stamps, so they're inverted to read white here. */
+.arrow img {
+    display: block;
+    width: clamp(14px, 1.7vw, 22px);
+    height: auto;
+    object-fit: contain;
+    filter: invert(1);
+}
+
+/* Both arrows use the same forward-arrow art; the left one is mirrored, so the
+   pair is guaranteed to match in size and weight. */
+#prev img {
+    transform: scaleX(-1);
 }
 
 .arrow:focus, .arrow:active {
@@ -443,6 +459,8 @@ footer #social-media-icons a:hover svg {
     padding-right: 0.5rem;
     cursor: pointer;
     top: 2rem;
+    /* x.png is a black stamp — invert it to read on the dark popup */
+    filter: invert(1);
 }
 
 #mc_embed_shell #mc_embed_signup .mc-field-group, #mc_embed_shell #mc_embed_signup #mce-responses {
@@ -566,33 +584,6 @@ footer #social-media-icons a:hover svg {
     top: 0;
 }
 
-#mc_embed_shell #mc_embed_signup #mailchimp-logo {
-    --size: 8;
-    --width: calc(var(--size) * 0.5rem);
-    --height: calc(var(--size) * 0.25rem);
-
-    margin: 0 !important;
-    position: absolute;
-    right: calc(0.7 * var(--width));
-    bottom: calc(1.5 * var(--height));
-}
-
-#mc_embed_shell #mc_embed_signup #mailchimp-logo a {
-    height: 100%;
-}
-
-#mc_embed_shell #mc_embed_signup #mailchimp-logo a span {
-    height: 100%;
-}
-
-#mc_embed_shell #mc_embed_signup #mailchimp-logo a span img {
-
-    width: var(--width) !important;
-    height: var(--height) !important;
-    padding: 4px !important;
-    filter: invert(1);
-}
-
 @media only screen and (max-width: 800px) {
     :root {
         font-size: 8px;
@@ -624,9 +615,6 @@ footer #social-media-icons a:hover svg {
     }
     #mc_embed_shell #subscribe-border { 
         width: 32rem;
-    }
-    #mc_embed_shell #mc_embed_signup #mailchimp-logo {
-        --size: 8.5; /* slightly larger on mobile */
     }
     #mc_embed_shell #mc_embed_signup .mc-field-group #mce-COUNTRY {
         padding-left: 1rem;
