@@ -1,6 +1,8 @@
 // Elements
 const $main = document.querySelector('main');
-const $$slides = Array.from(document.querySelectorAll('img.slide'));
+const $$slides = Array.from(document.querySelectorAll('.slide'));
+const $pollishSlide = document.querySelector('.slide.pollish');
+const $rareroomSlide = document.querySelector('.slide.rareroom');
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
@@ -168,12 +170,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('prev').addEventListener('click', decrementSlides);
 
-  // Play pollish sound when the first slide image is clicked
-  if ($$slides[0]) {
-    $$slides[0].addEventListener('click', playPollish);
+  // Play pollish sound when the lady slide is clicked
+  if ($pollishSlide) {
+    $pollishSlide.addEventListener('click', playPollish);
   }
-  if ($$slides[1]) {
-    $$slides[1].addEventListener('click', playRareroom);
+  if ($rareroomSlide) {
+    $rareroomSlide.addEventListener('click', playRareroom);
   }
   removeCurtainAfterImagesLoad();
 });
@@ -184,7 +186,7 @@ function playBuffer(buffer, isSlide1) {
   }
   stopCurrentSound();
   if (isSlide1) {
-    $$slides[0].src = 'images/pollish_open.png';
+    setPollishArt('pollish_open');
   }
   source = audioCtx.createBufferSource();
   source.buffer = buffer;
@@ -192,8 +194,15 @@ function playBuffer(buffer, isSlide1) {
   source.start(0);
   currentSource = source;
   source.onended = () => {
-    $$slides[0].src = 'images/pollish_closed.png';
+    setPollishArt('pollish_closed');
   };
+}
+/* The slide holds the artwork twice - the normal copy and the pink hover copy
+   crossfading over it - so the mouth has to open and close in both. */
+function setPollishArt(name) {
+  if (!$pollishSlide) return;
+  $pollishSlide.querySelector('.art').src = `images/${name}.png`;
+  $pollishSlide.querySelector('.art-hover').src = `images/${name}_hover.png`;
 }
 function stopCurrentSound() {
   if (currentSource) {
@@ -205,7 +214,7 @@ function stopCurrentSound() {
   if (source) {
     source.onended = () => { };
   }
-  $$slides[0].src = 'images/pollish_closed.png';
+  setPollishArt('pollish_closed');
 }
 function showSlide(i) {
   stopCurrentSound();

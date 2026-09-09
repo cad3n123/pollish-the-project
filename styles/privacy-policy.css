@@ -84,6 +84,16 @@ html:has(.black-overlay-page.active) {
   overflow-y: hidden;
 }
 
+/* iOS draws page content up under the dynamic island, and a fixed overlay's
+   top:0 lands below that strip - so the site kept showing through beside the
+   clock and battery. Take the content itself out of the picture instead of
+   trying to cover it. The delay holds it on screen until the overlay has
+   finished fading in; on close the rule stops matching and it returns at once. */
+body:has(.black-overlay-page.active) > *:not(.black-overlay-page) {
+  visibility: hidden;
+  transition: visibility 0s linear 250ms;
+}
+
 .black-overlay-page.active {
   visibility: visible;
   opacity: 1;

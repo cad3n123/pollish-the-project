@@ -114,18 +114,35 @@ body {
 }
 
 #slideshow .slide {
-    --size: 30%;
+    --size: 20%;
+    --art-padding: 2rem;
     --transition-time: 0.4s;
 
     position: absolute;
     width: var(--size);
     height: var(--size);
-    object-fit: contain;
     top: calc(50% - var(--size) / 2);
     left: calc(50% - var(--size) / 2);
-    padding: 0 2rem;
+    padding: 0 var(--art-padding);
     box-sizing: border-box;
     cursor: pointer;
+}
+
+/* The hover copy is positioned against the padding box, so it has to be inset
+   and sized by hand to land exactly on the in-flow original. Insets alone
+   won't do it - an absolutely positioned replaced element ignores `right` and
+   falls back to its intrinsic width. */
+#slideshow .slide > .art-hover {
+    top: 0;
+    left: var(--art-padding);
+    width: calc(100% - 2 * var(--art-padding));
+    height: 100%;
+}
+
+/* Lifts the artwork off the square so it reads as sitting on the projected
+   slide rather than being part of it. */
+#slideshow .slide > img {
+    filter: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.45));
 }
 
 .slide {
@@ -228,8 +245,6 @@ body {
 
 #vertical-nav #logo-wrapper #logo {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
     margin-bottom: 0.25rem;
 }
 
@@ -264,15 +279,53 @@ body {
     opacity: 0.9;
 }
 
-img.pink-hover, img.red-hover {
+/* The pink hover crossfades to a pre-rendered #F25FA3 copy of the artwork
+   rather than running a `filter` chain. A filter interpolates its own
+   parameters on the way in, which is what dragged the old blue hover through
+   red mid-transition, and it can't land on one exact colour for both the light
+   wordmark and the dark ink. Fading between two bitmaps is a straight sRGB
+   interpolation - no hue path to travel - and it lets the wordmark's Minimum
+   filter be baked into its hover copy. Variants come from
+   scripts/make-hover-art.py. */
+.swap {
+    --transition-time: 0.3s;
+
+    position: relative;
+}
+
+.swap > .art, .swap > .art-hover {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.swap > .art-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-time) ease;
+}
+
+.swap:hover > .art-hover {
+    opacity: 1;
+}
+
+/* The wordmark's hover copy is a different *shape* (Minimum thickens the
+   letters), so its base has to clear out instead of sitting underneath. The
+   slides keep theirs, which makes their crossfade a clean colour lerp. */
+#logo.swap > .art {
+    transition: opacity var(--transition-time) ease;
+}
+
+#logo.swap:hover > .art {
+    opacity: 0;
+}
+
+img.red-hover {
     --transition-time: 0.3s;
 
     transition: filter var(--transition-time);
-}
-
-img.pink-hover:hover {
-    /* Solved to land on #F25FA3 for the near-white source art */
-    filter: invert(54.97%) sepia(57.31%) saturate(2419%) hue-rotate(-50.37deg) brightness(117.3%) contrast(89.8%);
 }
 
 img.red-hover:hover {
