@@ -1,8 +1,10 @@
 // Elements
 const $main = document.querySelector('main');
-const $$slides = Array.from(document.querySelectorAll('.slide'));
-const $pollishSlide = document.querySelector('.slide.pollish');
-const $rareroomSlide = document.querySelector('.slide.rareroom');
+const $$slides = Array.from(document.querySelectorAll('img.slide'));
+/* Looked up by class, not by index - the slides get reordered from time to
+   time and only these two carry a sound. */
+const $pollishSlide = document.querySelector('img.slide.pollish');
+const $rareroomSlide = document.querySelector('img.slide.rareroom');
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
@@ -197,12 +199,8 @@ function playBuffer(buffer, isSlide1) {
     setPollishArt('pollish_closed');
   };
 }
-/* The slide holds the artwork twice - the normal copy and the pink hover copy
-   crossfading over it - so the mouth has to open and close in both. */
 function setPollishArt(name) {
-  if (!$pollishSlide) return;
-  $pollishSlide.querySelector('.art').src = `images/${name}.png`;
-  $pollishSlide.querySelector('.art-hover').src = `images/${name}_hover.png`;
+  if ($pollishSlide) $pollishSlide.src = `images/${name}.png`;
 }
 function stopCurrentSound() {
   if (currentSource) {
