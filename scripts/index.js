@@ -205,11 +205,13 @@ function playBuffer(buffer, isSlide1) {
    flickering off on the slightest nudge, and on a restored scroll position the
    initial call has it already hidden rather than fading out on arrival. */
 function watchScrollCue() {
-  const $scrollCue = document.getElementById('scroll-cue');
-  if (!$scrollCue) return;
+  const $$scrollCues = Array.from(document.querySelectorAll('.scroll-cue'));
+  if (!$$scrollCues.length) return;
 
-  const update = () =>
-    $scrollCue.classList.toggle('scrolled', (window.scrollY || 0) > 24);
+  const update = () => {
+    const scrolled = (window.scrollY || 0) > 24;
+    $$scrollCues.forEach(($cue) => $cue.classList.toggle('scrolled', scrolled));
+  };
 
   window.addEventListener('scroll', update, { passive: true });
   update();

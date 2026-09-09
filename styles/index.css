@@ -162,10 +162,20 @@ body {
 
    `translate` does the centring as a separate property so the keyframes own
    `transform` outright. */
-#scroll-cue {
+.scroll-cue {
     --cue-width: 48px;
     --cue-gap: 1rem;
     --cue-bob: 6px;
+    /* Offset of a margin's centre from the nearest edge of this box, as a
+       fraction of its width. #slideshow is --inner-width (76% of the body) and
+       centred, so each margin is --horizontal-padding (12%) wide and its centre
+       lands half of that - 6/76 of a slideshow-width - beyond the edge. Spelled
+       out rather than read from the vars, whose percentages would resolve
+       against this box instead of the body. */
+    --cue-reach: calc(100% * 6 / 76);
+    /* `vw` counts the scrollbar while the content edge sits inside it, so the
+       edge guards below keep a generous margin. */
+    --cue-edge-guard: calc(var(--cue-width) / 2 + 24px);
 
     position: absolute;
     /* Normally --cue-gap off the square's bottom edge. But the
@@ -178,22 +188,6 @@ body {
         var(--cue-gap),
         calc(var(--top-padding-height) + 100% - 100vh + var(--cue-gap) + var(--cue-bob))
     );
-    /* Centre of the true-black margin to the right of the backdrop. #slideshow
-       is --inner-width (76% of the body) and centred, so that margin is
-       --horizontal-padding (12%) wide, and its centre lands 6/76 of a
-       slideshow-width past this box's right edge. The ratio is spelled out
-       rather than read from the vars because those percentages would resolve
-       against this box instead of the body.
-
-       min() guards the narrow layouts: under 800px --horizontal-padding drops
-       to 0, so there is no margin left to sit in and the arrow would hang off
-       the screen. It parks inside the edge instead. The guard's own margin is
-       generous because `vw` counts the scrollbar while the content edge sits
-       inside it. */
-    left: min(
-        calc(100% + 100% * 6 / 76),
-        calc(50vw + 50% - var(--cue-width) / 2 - 24px)
-    );
     translate: -50% 0;
     z-index: 3;
     width: var(--cue-width);
@@ -203,13 +197,38 @@ body {
     transition: opacity var(--opacity-transition-time) var(--opacity-transition-function);
 }
 
-/* It has said its piece once you've scrolled. Toggled rather than one-shot, so
-   it comes back if you return to the top. */
-#scroll-cue.scrolled {
+/* The guards only come into play right at the 800px breakpoint. Below it the
+   cues are hidden outright - there is no margin left to sit in - and the two
+   crossovers work out to the same width, so these just cover the seam. */
+.scroll-cue.right {
+    left: min(
+        calc(100% + var(--cue-reach)),
+        calc(50vw + 50% - var(--cue-edge-guard))
+    );
+}
+
+.scroll-cue.left {
+    left: max(
+        calc(0px - var(--cue-reach)),
+        calc(50% - 50vw + var(--cue-edge-guard))
+    );
+}
+
+/* Same art as the right-hand cue, mirrored - it's hand-drawn and not
+   symmetrical, so the pair only reads as a matched set this way. Same trick as
+   #prev against #next. The flip lives on the img so the wrapper's `transform`
+   stays free for the bob. */
+.scroll-cue.left img {
+    transform: scaleX(-1);
+}
+
+/* They have said their piece once you've scrolled. Toggled rather than
+   one-shot, so they come back if you return to the top. */
+.scroll-cue.scrolled {
     opacity: 0;
 }
 
-#scroll-cue img {
+.scroll-cue img {
     display: block;
     width: 100%;
     height: auto;
@@ -743,6 +762,14 @@ footer #social-media-icons a:hover svg {
     }
     #slideshow #square {
         --arrow-padding: 3rem;
+    }
+    /* --horizontal-padding is 0 here, so the backdrop runs edge to edge and
+       there is no black margin left for the scroll cues to sit in. */
+    .scroll-cue {
+        display: none;
+    }
+    #slideshow .slide {
+        --size: 30%;
     }
     /* The mirrored left arrow reads as sitting closer in than its twin once the
        square narrows, so nudge it a little further out. */
