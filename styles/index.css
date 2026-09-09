@@ -85,7 +85,10 @@ body {
     height: 100%;
     box-sizing: border-box;
     margin: auto;
-    overflow: hidden;
+    /* Visible so the scroll cue can sit in the true-black margin outside this
+       box. Nothing else here overflows - the square matches this box's width
+       and height at every size, and html/body already clip the page's x-axis. */
+    overflow: visible;
     max-height: 100vh;
 }
 
@@ -152,22 +155,15 @@ body {
    artwork, same floaty bob, same grayscale treatment, plus an invert so the
    black arrow art reads against this site's black page.
 
-   It lives in #square so it can be placed off the square's own edge. The
-   square art's painted width is #square's box less the arrow padding, and
-   #square is centred, which is enough to put the cue midway between the
-   square's right edge and the screen's:
+   It sits in #slideshow, whose box is exactly #background's, so "outside this
+   box" is precisely the true black beyond the backdrop art. #slideshow's own
+   bottom edge also tracks the square's exactly, which is what the vertical
+   maths below leans on.
 
-     square's right edge (page)  = (100vw + 100%) / 2 - arrow-padding
-     midpoint with 100vw, in #square's coords, works out to the `left` below
-
-   The min() is a guard for narrow viewports, where the square grows to nearly
-   full width and that midpoint would push the arrow off the screen (and into
-   #slideshow's overflow clip). There it just parks near the edge instead.
    `translate` does the centring as a separate property so the keyframes own
    `transform` outright. */
 #scroll-cue {
-    --cue-width: 36px;
-
+    --cue-width: 48px;
     --cue-gap: 0.4rem;
     --cue-bob: 6px;
 
@@ -175,18 +171,27 @@ body {
     /* Normally 0.4rem off the square's bottom edge, as on RAREROOM. But the
        square is capped at `max-height: 100vh` while sitting --top-padding-height
        down the page, so once it hits that cap its bottom edge - and anything
-       pinned to it - falls below the fold, where #slideshow's overflow clip
-       swallows it. The second term is how far past the fold that is, plus room
-       for the bob's downward travel; max() only lets it win when it's actually
-       positive. */
+       pinned to it - falls below the fold. The second term is how far past the
+       fold that is, plus room for the bob's downward travel; max() only lets it
+       win when it's actually positive. */
     bottom: max(
         var(--cue-gap),
         calc(var(--top-padding-height) + 100% - 100vh + var(--cue-gap) + var(--cue-bob))
     );
-    /* The guard's margin is generous because `vw` counts the scrollbar while
-       the content edge sits inside it - 24px keeps the arrow clear either way. */
+    /* Centre of the true-black margin to the right of the backdrop. #slideshow
+       is --inner-width (76% of the body) and centred, so that margin is
+       --horizontal-padding (12%) wide, and its centre lands 6/76 of a
+       slideshow-width past this box's right edge. The ratio is spelled out
+       rather than read from the vars because those percentages would resolve
+       against this box instead of the body.
+
+       min() guards the narrow layouts: under 800px --horizontal-padding drops
+       to 0, so there is no margin left to sit in and the arrow would hang off
+       the screen. It parks inside the edge instead. The guard's own margin is
+       generous because `vw` counts the scrollbar while the content edge sits
+       inside it. */
     left: min(
-        calc(25vw + 75% - var(--arrow-padding) / 2),
+        calc(100% + 100% * 6 / 76),
         calc(50vw + 50% - var(--cue-width) / 2 - 24px)
     );
     translate: -50% 0;
