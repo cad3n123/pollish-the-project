@@ -115,49 +115,84 @@ body {
 
 #slideshow .slide {
     --size: 20%;
+    --art-padding: 2rem;
     --transition-time: 0.4s;
-    /* Lifts the artwork off the square so it reads as sitting on the projected
-       slide rather than being part of it. It has to be carried through to the
-       hover chain by hand - `filter` is one property, so naming a chain on
-       hover would otherwise drop the shadow. */
-    --projector-shadow: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.45));
 
     position: absolute;
     width: var(--size);
     height: var(--size);
-    object-fit: contain;
     top: calc(50% - var(--size) / 2);
     left: calc(50% - var(--size) / 2);
-    padding: 0 2rem;
+    padding: 0 var(--art-padding);
     box-sizing: border-box;
     cursor: pointer;
-    filter: var(--projector-shadow);
 }
 
-#slideshow .slide.pink-hover:hover {
-    filter: var(--projector-shadow) var(--pink-filter);
+/* The hover copy is positioned against the padding box, so it has to be inset
+   and sized by hand to land exactly on the in-flow original. Insets alone
+   won't do it - an absolutely positioned replaced element ignores `right` and
+   falls back to its intrinsic width. */
+#slideshow .slide > .art-hover {
+    top: 0;
+    left: var(--art-padding);
+    width: calc(100% - 2 * var(--art-padding));
+    height: 100%;
+}
+
+/* Lifts the artwork off the square so it reads as sitting on the projected
+   slide rather than being part of it. */
+#slideshow .slide > img {
+    filter: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.45));
 }
 
 /* Lifted from the RAREROOM homepage (assets/css/hero.css .scroll-cue) - same
-   artwork, same floaty bob, same grayscale treatment. It sits higher than
-   RAREROOM's does because the arrow art is black: below the square it would be
-   black on black, so it has to stay over the white slide. `translate` does the
-   centring as a separate property so the keyframes own `transform` outright. */
+   artwork, same floaty bob, same grayscale treatment, plus an invert so the
+   black arrow art reads against this site's black page.
+
+   It lives in #square so it can be placed off the square's own edge. The
+   square art's painted width is #square's box less the arrow padding, and
+   #square is centred, which is enough to put the cue midway between the
+   square's right edge and the screen's:
+
+     square's right edge (page)  = (100vw + 100%) / 2 - arrow-padding
+     midpoint with 100vw, in #square's coords, works out to the `left` below
+
+   The min() is a guard for narrow viewports, where the square grows to nearly
+   full width and that midpoint would push the arrow off the screen (and into
+   #slideshow's overflow clip). There it just parks near the edge instead.
+   `translate` does the centring as a separate property so the keyframes own
+   `transform` outright. */
 #scroll-cue {
+    --cue-width: 36px;
+
     position: absolute;
-    /* The square art's white stops ~4.4% above #slideshow's bottom edge, and
-       the bob adds another 6px of travel - so this keeps a real margin rather
-       than hugging the edge the way RAREROOM's does. */
-    bottom: 11%;
-    left: 50%;
+    bottom: 0.4rem;
+    /* The guard's margin is generous because `vw` counts the scrollbar while
+       the content edge sits inside it - 24px keeps the arrow clear either way. */
+    left: min(
+        calc(25vw + 75% - var(--arrow-padding) / 2),
+        calc(50vw + 50% - var(--cue-width) / 2 - 24px)
+    );
     translate: -50% 0;
     z-index: 3;
-    width: 36px;
-    height: auto;
+    width: var(--cue-width);
     opacity: 0.72;
-    filter: grayscale(1) contrast(1.02) contrast(1.4);
     pointer-events: none;
     animation: floaty 1.8s ease-in-out infinite;
+    transition: opacity var(--opacity-transition-time) var(--opacity-transition-function);
+}
+
+/* It has said its piece once you've scrolled. Toggled rather than one-shot, so
+   it comes back if you return to the top. */
+#scroll-cue.scrolled {
+    opacity: 0;
+}
+
+#scroll-cue img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: invert(1) grayscale(1) contrast(1.02) contrast(1.4);
 }
 
 @keyframes floaty {
@@ -300,10 +335,13 @@ body {
     opacity: 0.9;
 }
 
-/* Solved to land on #F25FA3 for the near-white wordmark; dark ink comes out a
-   touch lighter at #F1729A. Kept as a `filter` chain on purpose - CSS
-   interpolates each function's parameters on the way in, which is what sweeps
-   the colour around the wheel through red before it settles. */
+/* Two hover mechanisms on purpose, because the wordmark and the carousel want
+   opposite things.
+
+   The wordmark keeps a `filter` chain, solved to land on #F25FA3 from its
+   near-white art. CSS interpolates each function's parameters on the way in,
+   which is exactly what sweeps the colour around the wheel through red before
+   it settles - that sweep is the point. */
 .pink-hover {
     --transition-time: 0.3s;
     --pink-filter: invert(54.97%) sepia(57.31%) saturate(2419%) hue-rotate(-50.37deg) brightness(117.3%) contrast(89.8%);
@@ -340,6 +378,35 @@ body {
 
 #logo.pink-hover:hover > .art {
     opacity: 0;
+}
+
+/* The carousel takes the other route: crossfade to a finished pink copy. That
+   lands on exactly #F25FA3 (the filter above can't, from source art this far
+   apart in luminance) and interpolates straight to it with no colour sweep.
+   Keeping the base underneath rather than fading it out makes the crossfade a
+   clean lerp instead of dipping translucent halfway. */
+.pink-swap {
+    --transition-time: 0.3s;
+
+    position: relative;
+}
+
+.pink-swap > .art, .pink-swap > .art-hover {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pink-swap > .art-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-time) ease;
+}
+
+.pink-swap:hover > .art-hover {
+    opacity: 1;
 }
 
 img.red-hover {

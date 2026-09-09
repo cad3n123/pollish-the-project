@@ -1,10 +1,10 @@
 // Elements
 const $main = document.querySelector('main');
-const $$slides = Array.from(document.querySelectorAll('img.slide'));
+const $$slides = Array.from(document.querySelectorAll('.slide'));
 /* Looked up by class, not by index - the slides get reordered from time to
    time and only these two carry a sound. */
-const $pollishSlide = document.querySelector('img.slide.pollish');
-const $rareroomSlide = document.querySelector('img.slide.rareroom');
+const $pollishSlide = document.querySelector('.slide.pollish');
+const $rareroomSlide = document.querySelector('.slide.rareroom');
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if ($rareroomSlide) {
     $rareroomSlide.addEventListener('click', playRareroom);
   }
+  watchScrollCue();
   removeCurtainAfterImagesLoad();
 });
 function playBuffer(buffer, isSlide1) {
@@ -199,8 +200,26 @@ function playBuffer(buffer, isSlide1) {
     setPollishArt('pollish_closed');
   };
 }
+/* Fade the down-arrow out once the page has moved - it's only there to say the
+   page scrolls, and it has made that point by then. The threshold keeps it from
+   flickering off on the slightest nudge, and on a restored scroll position the
+   initial call has it already hidden rather than fading out on arrival. */
+function watchScrollCue() {
+  const $scrollCue = document.getElementById('scroll-cue');
+  if (!$scrollCue) return;
+
+  const update = () =>
+    $scrollCue.classList.toggle('scrolled', (window.scrollY || 0) > 24);
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+/* The slide holds the artwork twice - the normal copy and the pink hover copy
+   crossfading over it - so the mouth has to open and close in both. */
 function setPollishArt(name) {
-  if ($pollishSlide) $pollishSlide.src = `images/${name}.png`;
+  if (!$pollishSlide) return;
+  $pollishSlide.querySelector('.art').src = `images/${name}.png`;
+  $pollishSlide.querySelector('.art-hover').src = `images/${name}_hover.png`;
 }
 function stopCurrentSound() {
   if (currentSource) {
