@@ -115,8 +115,6 @@ body {
 
 #slideshow .slide {
     --size: 30%;
-    --contrast: 1000%;
-    --brightness: 55%;
     --transition-time: 0.4s;
 
     position: absolute;
@@ -128,10 +126,6 @@ body {
     padding: 0 2rem;
     box-sizing: border-box;
     cursor: pointer;
-}
-
-#slideshow .slide.pollish {
-    --size: 35%;
 }
 
 .slide {
@@ -270,20 +264,15 @@ body {
     opacity: 0.9;
 }
 
-img.blue-hover {
-    --contrast: 500%;
-    --brightness: 95%;
-}
-
-img.blue-hover, img.red-hover {
+img.pink-hover, img.red-hover {
     --transition-time: 0.3s;
 
     transition: filter var(--transition-time);
 }
 
-img.blue-hover:hover {
-    /* Darker, more saturated blue on hover */
-    filter: invert(50%) sepia(95%) saturate(6000%) hue-rotate(199deg) brightness(var(--brightness)) contrast(var(--contrast));
+img.pink-hover:hover {
+    /* Solved to land on #F25FA3 for the near-white source art */
+    filter: invert(54.97%) sepia(57.31%) saturate(2419%) hue-rotate(-50.37deg) brightness(117.3%) contrast(89.8%);
 }
 
 img.red-hover:hover {
@@ -603,9 +592,6 @@ footer #social-media-icons a:hover svg {
        already sits a touch further out than its mirrored twin. */
     #next {
         right: calc(var(--distance) - 0.5rem);
-    }
-    #slideshow .slide.rareroom {
-        --size: 40%;
     }
     main {
         padding: 2rem;
