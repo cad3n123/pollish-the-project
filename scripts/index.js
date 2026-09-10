@@ -438,10 +438,14 @@ function setNavLinks() {
   });
 }
 /* Watch no longer leaves the site - it walks the page down to the videos,
-   which live in <main> directly under the slideshow. */
+   which live in <main> directly under the slideshow. Stops a little short of
+   <main>'s top edge so the first video isn't flush against the viewport. */
+const VIDEO_SCROLL_PADDING = 48;
+
 function scrollToVideos() {
-  const target = window.scrollY + $main.getBoundingClientRect().top;
-  animateScrollTo(target, 600);
+  const target =
+    window.scrollY + $main.getBoundingClientRect().top - VIDEO_SCROLL_PADDING;
+  animateScrollTo(Math.max(target, 0), 250);
 }
 function setSocialLinks() {
   const $$socials = [...$socialMediaIcons.querySelectorAll('a')];
