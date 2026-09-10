@@ -134,6 +134,14 @@ body {
     cursor: pointer;
 }
 
+/* The album art carries the slideshow, so it sits a notch bigger than the
+   rest. Scaled rather than given its own --size: the slide box is centred off
+   that variable and the art is fitted inside its padding, so a plain scale is
+   the only way to grow the artwork itself by an exact 10%. */
+#slideshow .slide.album {
+    scale: 1.1;
+}
+
 /* The hover copy is positioned against the padding box, so it has to be inset
    and sized by hand to land exactly on the in-flow original. Insets alone
    won't do it - an absolutely positioned replaced element ignores `right` and
@@ -161,96 +169,6 @@ body {
 
 #slideshow .slide.rareroom:hover > .art {
     filter: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.7));
-}
-
-/* Lifted from the RAREROOM homepage (assets/css/hero.css .scroll-cue) - same
-   artwork, same floaty bob, same grayscale treatment, plus an invert so the
-   black arrow art reads against this site's black page.
-
-   It sits in #slideshow, whose box is exactly #background's, so "outside this
-   box" is precisely the true black beyond the backdrop art. #slideshow's own
-   bottom edge also tracks the square's exactly, which is what the vertical
-   maths below leans on.
-
-   `translate` does the centring as a separate property so the keyframes own
-   `transform` outright. */
-.scroll-cue {
-    --cue-width: 48px;
-    --cue-gap: 1rem;
-    --cue-bob: 6px;
-    /* Offset of a margin's centre from the nearest edge of this box, as a
-       fraction of its width. #slideshow is --inner-width (76% of the body) and
-       centred, so each margin is --horizontal-padding (12%) wide and its centre
-       lands half of that - 6/76 of a slideshow-width - beyond the edge. Spelled
-       out rather than read from the vars, whose percentages would resolve
-       against this box instead of the body. */
-    --cue-reach: calc(100% * 6 / 76);
-    /* `vw` counts the scrollbar while the content edge sits inside it, so the
-       edge guards below keep a generous margin. */
-    --cue-edge-guard: calc(var(--cue-width) / 2 + 24px);
-
-    position: absolute;
-    /* Normally --cue-gap off the square's bottom edge. But the
-       square is capped at `max-height: 100vh` while sitting --top-padding-height
-       down the page, so once it hits that cap its bottom edge - and anything
-       pinned to it - falls below the fold. The second term is how far past the
-       fold that is, plus room for the bob's downward travel; max() only lets it
-       win when it's actually positive. */
-    bottom: max(
-        var(--cue-gap),
-        calc(var(--top-padding-height) + 100% - 100vh + var(--cue-gap) + var(--cue-bob))
-    );
-    translate: -50% 0;
-    z-index: 3;
-    width: var(--cue-width);
-    opacity: 0.72;
-    pointer-events: none;
-    animation: floaty 1.8s ease-in-out infinite;
-    transition: opacity var(--opacity-transition-time) var(--opacity-transition-function);
-}
-
-/* The guards only come into play right at the 800px breakpoint. Below it the
-   cues are hidden outright - there is no margin left to sit in - and the two
-   crossovers work out to the same width, so these just cover the seam. */
-.scroll-cue.right {
-    left: min(
-        calc(100% + var(--cue-reach)),
-        calc(50vw + 50% - var(--cue-edge-guard))
-    );
-}
-
-.scroll-cue.left {
-    left: max(
-        calc(0px - var(--cue-reach)),
-        calc(50% - 50vw + var(--cue-edge-guard))
-    );
-}
-
-/* Same art as the right-hand cue, mirrored - it's hand-drawn and not
-   symmetrical, so the pair only reads as a matched set this way. Same trick as
-   #prev against #next. The flip lives on the img so the wrapper's `transform`
-   stays free for the bob. */
-.scroll-cue.left img {
-    transform: scaleX(-1);
-}
-
-/* They have said their piece once you've scrolled. Toggled rather than
-   one-shot, so they come back if you return to the top. */
-.scroll-cue.scrolled {
-    opacity: 0;
-}
-
-.scroll-cue img {
-    display: block;
-    width: 100%;
-    height: auto;
-    filter: invert(1) grayscale(1) contrast(1.02) contrast(1.4);
-}
-
-@keyframes floaty {
-    50% {
-        transform: translateY(var(--cue-bob));
-    }
 }
 
 .slide {
@@ -774,11 +692,6 @@ footer #social-media-icons a:hover svg {
     }
     #slideshow #square {
         --arrow-padding: 3rem;
-    }
-    /* --horizontal-padding is 0 here, so the backdrop runs edge to edge and
-       there is no black margin left for the scroll cues to sit in. */
-    .scroll-cue {
-        display: none;
     }
     #slideshow .slide {
         --size: 30%;

@@ -24,10 +24,6 @@ loadYoutubePreviews = function () {
 };
 
 setNavLinks = function () {
-  $watchBtn.href = linkData.watch;
-  $watchBtn.target = '_blank';
-  $watchBtn.rel = 'noopener noreferrer';
-
   $listenBtn.removeAttribute('href');
   $listenBtn.removeAttribute('target');
   $listenBtn.removeAttribute('rel');

@@ -2,8 +2,7 @@
 const $main = document.querySelector('main');
 const $$slides = Array.from(document.querySelectorAll('.slide'));
 /* Looked up by class, not by index - the slides get reordered from time to
-   time and only these two carry a sound. */
-const $pollishSlide = document.querySelector('.slide.pollish');
+   time and only this one carries a sound. */
 const $rareroomSlide = document.querySelector('.slide.rareroom');
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
@@ -63,10 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     .then((buffer) => {
       pollishBuffer = buffer;
     });
-
-  function playPollish() {
-    playBuffer(pollishBuffer, true);
-  }
 
   /**
    *
@@ -172,56 +167,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('prev').addEventListener('click', decrementSlides);
 
-  // Play pollish sound when the lady slide is clicked
-  if ($pollishSlide) {
-    $pollishSlide.addEventListener('click', playPollish);
-  }
   if ($rareroomSlide) {
     $rareroomSlide.addEventListener('click', playRareroom);
   }
-  watchScrollCue();
+  $watchBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    scrollToVideos();
+  });
   removeCurtainAfterImagesLoad();
 });
-function playBuffer(buffer, isSlide1) {
+function playBuffer(buffer) {
   if (!buffer) return;
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
   stopCurrentSound();
-  if (isSlide1) {
-    setPollishArt('pollish_open');
-  }
   source = audioCtx.createBufferSource();
   source.buffer = buffer;
   source.connect(audioCtx.destination);
   source.start(0);
   currentSource = source;
-  source.onended = () => {
-    setPollishArt('pollish_closed');
-  };
 }
-/* Fade the down-arrow out once the page has moved - it's only there to say the
-   page scrolls, and it has made that point by then. The threshold keeps it from
-   flickering off on the slightest nudge, and on a restored scroll position the
-   initial call has it already hidden rather than fading out on arrival. */
-function watchScrollCue() {
-  const $$scrollCues = Array.from(document.querySelectorAll('.scroll-cue'));
-  if (!$$scrollCues.length) return;
-
-  const update = () => {
-    const scrolled = (window.scrollY || 0) > 24;
-    $$scrollCues.forEach(($cue) => $cue.classList.toggle('scrolled', scrolled));
-  };
-
-  window.addEventListener('scroll', update, { passive: true });
-  update();
-}
-/* The slide holds the artwork twice - the normal copy and the pink hover copy
-   crossfading over it - so the mouth has to open and close in both. */
-function setPollishArt(name) {
-  if (!$pollishSlide) return;
-  $pollishSlide.querySelector('.art').src = `images/${name}.png`;
-  $pollishSlide.querySelector('.art-hover').src = `images/${name}_hover.png`;
+function playPollish() {
+  playBuffer(pollishBuffer);
 }
 function stopCurrentSound() {
   if (currentSource) {
@@ -233,7 +201,6 @@ function stopCurrentSound() {
   if (source) {
     source.onended = () => { };
   }
-  setPollishArt('pollish_closed');
 }
 function showSlide(i) {
   stopCurrentSound();
@@ -252,7 +219,7 @@ function showSlide(i) {
   }, 150);
 }
 function playClick() {
-  playBuffer(clickBuffer, false);
+  playBuffer(clickBuffer);
 }
 function incrementSlides() {
   index = (index + 1) % $$slides.length;
@@ -359,20 +326,28 @@ function closeNewsletterForm() {
   document.getElementById('mc_embed_shell').classList.remove('active');
   document.documentElement.style.overflow = 'auto';
 }
-document.getElementById('logo').addEventListener('click', () => {
+/* Hand-rolled rather than `behavior: 'smooth'` - the native version gets
+   cut short by anything that touches the scroll position mid-flight. */
+function animateScrollTo(target, duration) {
   const start = window.scrollY;
-  const duration = 200;
+  const distance = target - start;
   const startTime = performance.now();
 
   function scrollStep(timestamp) {
     const progress = Math.min((timestamp - startTime) / duration, 1);
-    window.scrollTo(0, start * (1 - progress));
+    window.scrollTo(0, start + distance * progress);
     if (progress < 1) {
       requestAnimationFrame(scrollStep);
     }
   }
 
   requestAnimationFrame(scrollStep);
+}
+
+/* The logo took over the pollish sound when the lady left the carousel. */
+document.getElementById('logo').addEventListener('click', () => {
+  playPollish();
+  animateScrollTo(0, 200);
 });
 
 document.addEventListener('keydown', (event) => {
@@ -453,10 +428,6 @@ function loadYoutubePreviews() {
 function setNavLinks() {
   [
     {
-      $a: $watchBtn,
-      link: linkData.watch,
-    },
-    {
       $a: $listenBtn,
       link: linkData.listen,
     },
@@ -465,6 +436,12 @@ function setNavLinks() {
     $a.target = '_blank';
     $a.rel = 'noopener noreferrer';
   });
+}
+/* Watch no longer leaves the site - it walks the page down to the videos,
+   which live in <main> directly under the slideshow. */
+function scrollToVideos() {
+  const target = window.scrollY + $main.getBoundingClientRect().top;
+  animateScrollTo(target, 600);
 }
 function setSocialLinks() {
   const $$socials = [...$socialMediaIcons.querySelectorAll('a')];
