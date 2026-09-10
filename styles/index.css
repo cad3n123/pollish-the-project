@@ -151,6 +151,18 @@ body {
     filter: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.45));
 }
 
+/* The other slides deepen their shadow on hover for free: the hover copy fades
+   in over the base and the two identical drop-shadows composite. RAREROOM has
+   no hover copy, so it darkens its one shadow by hand to the same weight
+   (two 0.45 layers land near 0.7), off the same --transition-time. */
+#slideshow .slide.rareroom > .art {
+    transition: filter var(--transition-time) ease;
+}
+
+#slideshow .slide.rareroom:hover > .art {
+    filter: drop-shadow(0.1rem 0.2rem 0.35rem rgba(0, 0, 0, 0.7));
+}
+
 /* Lifted from the RAREROOM homepage (assets/css/hero.css .scroll-cue) - same
    artwork, same floaty bob, same grayscale treatment, plus an invert so the
    black arrow art reads against this site's black page.
