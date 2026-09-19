@@ -205,7 +205,7 @@ body {
    source PNGs are black stamps, so they're inverted to read white here. */
 .arrow img {
     display: block;
-    width: clamp(14px, 1.7vw, 22px);
+    width: clamp(11px, 1.36vw, 18px);
     height: auto;
     object-fit: contain;
     filter: invert(1);
