@@ -4,6 +4,7 @@ const $$slides = Array.from(document.querySelectorAll('.slide'));
 /* Looked up by class, not by index - the slides get reordered from time to
    time and only this one carries a sound. */
 const $rareroomSlide = document.querySelector('.slide.rareroom');
+const $albumSlide = document.querySelector('.slide.album');
 const $emailInput = document.getElementById('mce-EMAIL');
 const $emailPlaceholderImage = document.getElementById('email-placeholder');
 const $countrySelect = document.getElementById('mce-COUNTRY');
@@ -18,6 +19,8 @@ const [$listenBtn, $watchBtn] = ['listen', 'watch'].map((name) =>
 
 // Constant Vars
 const volume = 0.35;
+/* Smart link for the album - fans out to whichever store or service they use. */
+const ALBUM_URL = 'https://orcd.co/pollish-ayearhaspast';
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const gainNode = audioCtx.createGain();
 
@@ -169,6 +172,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if ($rareroomSlide) {
     $rareroomSlide.addEventListener('click', playRareroom);
+  }
+  if ($albumSlide) {
+    $albumSlide.addEventListener('click', () => {
+      window.open(ALBUM_URL, '_blank', 'noopener');
+    });
   }
   $watchBtn.addEventListener('click', (event) => {
     event.preventDefault();
