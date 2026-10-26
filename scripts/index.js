@@ -411,9 +411,40 @@ async function fetchLinkData() {
 }
 /* The page always reserves this many video slots, even when the bucket data
    carries fewer links (or drops the youtube-links key altogether) — a slot
-   with no link behind it renders as an empty container rather than
+   with no link behind it renders as a "soon" placeholder rather than
    collapsing the section. */
 const MIN_YOUTUBE_PREVIEWS = 2;
+
+/* The bucket data carries whatever URL was copied out of YouTube - a watch
+   link, a share link, or an already-embeddable one. Only /embed/ URLs can go
+   in an iframe, so pull the video id out and rebuild the link around it,
+   keeping any query params (start time, si, ...) that came with it. */
+function toYoutubeEmbedUrl(link) {
+  let url;
+  try {
+    url = new URL(link);
+  } catch {
+    return link;
+  }
+
+  let id = null;
+  if (url.hostname === 'youtu.be') {
+    id = url.pathname.slice(1);
+  } else if (url.pathname === '/watch') {
+    id = url.searchParams.get('v');
+    url.searchParams.delete('v');
+  } else if (url.pathname.startsWith('/shorts/')) {
+    id = url.pathname.slice('/shorts/'.length);
+  } else {
+    return link;
+  }
+
+  if (!id) {
+    return link;
+  }
+
+  return `https://www.youtube.com/embed/${id}${url.search}`;
+}
 
 function loadYoutubePreviews() {
   const links = linkData['youtube-links'] || [];
@@ -425,9 +456,12 @@ function loadYoutubePreviews() {
 
     if (links[i]) {
       const $iframe = document.createElement('iframe');
-      $iframe.src = links[i];
+      $iframe.src = toYoutubeEmbedUrl(links[i]);
       $iframe.allowFullscreen = true;
       $videoContainer.appendChild($iframe);
+    } else {
+      $videoContainer.classList.add('video-placeholder');
+      $videoContainer.textContent = 'soon';
     }
 
     $main.appendChild($videoContainer);

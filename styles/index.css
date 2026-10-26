@@ -420,6 +420,25 @@ main {
     border: 0;
 }
 
+/* A slot with no link behind it: same 16:9 footprint, drawn as an empty
+   outlined box with "soon" centered in it. */
+.video-placeholder {
+    padding-bottom: 0;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Matches the footer's "RAREROOM" type. */
+    font-family: Source_Code_Pro;
+    letter-spacing: 3px;
+    font-weight: 400;
+    color: var(--secondary);
+    font-size: 1rem;
+}
+
 #curtain {
     --transition-time: 0.5s;
 
